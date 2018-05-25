@@ -15,7 +15,7 @@ public class MovieRespond {
     @SerializedName("results")
     public List<Movie> movieslist;
 
-    //Access modifiero
+    //Access modifier
     public int getPage()                { return page; }
     public int getTotal_results()       { return total_results; }
     public int getTotal_pages()         { return total_pages; }
