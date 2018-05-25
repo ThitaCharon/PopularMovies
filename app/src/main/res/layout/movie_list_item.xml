@@ -4,18 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:id="@+id/tv_title"
         android:textColor="@color/title"
         android:textSize="16dp"/>
-
     <TextView
-        android:id="@+id/tv_datelease"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/year" />
+        android:layout_alignParentTop="true"
+        android:id="@+id/tv_rating"
+        android:textColor="@color/rating"
+        android:textSize="16dp"
+        android:layout_toEndOf="@id/tv_title"/>
+
 
 </RelativeLayout>

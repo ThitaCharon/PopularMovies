@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     // Poppulate item in RV
     private RecyclerView recyclerView;
     private MoviesAdapter moviesAdapter;
-    private List<Movie> mListItems = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
         // populate movie data on RV
         recyclerView = (RecyclerView) findViewById(R.id.rv_posters);
-         RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mlayoutManager);
         recyclerView.setHasFixedSize(true);
-        moviesAdapter = new MoviesAdapter(mListItems);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(moviesAdapter);
-        moviesAdapter.notifyDataSetChanged();
     }
 
 
@@ -68,15 +65,17 @@ public class MainActivity extends AppCompatActivity {
                 for(Movie m : movieList){
                     Log.d("Title", m.getTitle());
                     Log.d("id",m.getId()+"");
-                    Log.d("Poster", IMAGE_URL_PATH + m.getPoster());
+                    Log.d("Poster", IMAGE_URL_PATH + m.getPosterUrl());
                     Log.d("rating",m.getRating());
                     Log.d("popularity", m.getPopularity()+ "");
                     Log.d("over view ", m.getOverview());
                     Log.d("Date Relase" ,m.getDateRelease());
-                    mListItems.add(new Movie(m.getTitle(),m.getId(),m.getPoster(),m.getRating(),m.getDateRelease(),m.getOverview()));
-                }
-                Log.d("Movie List size" , mListItems.size() + "");
+            }
+
                 Log.d(TAG, "Total # of movies : " + movieList.size());
+                moviesAdapter = new MoviesAdapter(movieList);
+                recyclerView.setAdapter(moviesAdapter);
+                moviesAdapter.notifyDataSetChanged();
             }
 
             @Override

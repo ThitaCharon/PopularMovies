@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.Model.Movie;
@@ -22,11 +23,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView title;
+        public ImageView image;
+        public TextView rating;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tv_title);
-
+            image = (ImageView) itemView.findViewById(R.id.image);
+            rating = (TextView) itemView.findViewById(R.id.tv_rating);
         }
     }
 
@@ -41,10 +45,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.title.setText(movieList.get(position).getTitle());
+        holder.rating.setText(movieList.get(position).getRating());
     }
 
     @Override
     public int getItemCount() {
-        return movieList.size();
+        if (movieList != null) {
+            return movieList.size();
+        }
+        return 0;
     }
 }

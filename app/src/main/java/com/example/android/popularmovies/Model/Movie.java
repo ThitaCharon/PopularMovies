@@ -20,9 +20,6 @@
         @SerializedName("id")
         private int id;
 
-        public Movie(String mTitle, int id, String poster, String rating, String dateRelease, String title){
-            this.title = title;
-        }
         // parameter constructer
         public Movie (String title, String poster, String overview, String popularVote, String rating,
                       String dateRelease, int id, double popularity){
@@ -39,7 +36,7 @@
 
         public int getId()              {   return id; }
         public String getTitle()        {   return title;       }
-        public String getPoster()       {   return poster;      }
+        public String getPosterUrl()    {   return poster;      }
         public String getRating()       {   return rating;      }
         public Double getPopularity()   {   return popularity;  }
         public String getOverview()     {   return overview;    }
@@ -48,7 +45,7 @@
         //set modifier
         public void setId()                             { this.id = id; }
         public void setTitle(String title)              { this.title = title; }
-        public void setPoster(String poster)            { this.poster = poster; }
+        public void setPosterUrl(String poster)         { this.poster = poster; }
         public void setRating(String rating)            { this.rating = rating; }
         public void setPopularity(Double Popularity)    { this.popularity = popularity; }
         public void setOverview(String overview)        { this.overview = overview; }
