@@ -6,7 +6,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.example.android.popularmovies.Model.Movie;
 import com.example.android.popularmovies.Model.MovieRespond;
@@ -25,10 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
-    private final static String API_KEY = "ApiKey";
+    private final static String API_KEY = "Apikey";
     public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
+    private List<Movie> movieList = new ArrayList<>();;
     private RecyclerView recyclerView;
     private MoviesAdapter moviesAdapter;
 
@@ -45,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mlayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+    }
+
+    public boolean onCreateOptionMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu,menu);
+        return true;
     }
 
 
@@ -61,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
                 Log.d(TAG,"success");
-                List<Movie> movieList = response.body().getMovieslist();
+                movieList = response.body().getMovieslist();
                 for(Movie m : movieList){
                     Log.d("Title", m.getTitle());
                     Log.d("id",m.getId()+"");

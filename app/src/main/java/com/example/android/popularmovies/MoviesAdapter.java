@@ -31,6 +31,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             title = (TextView) itemView.findViewById(R.id.tv_title);
             image = (ImageView) itemView.findViewById(R.id.image);
             rating = (TextView) itemView.findViewById(R.id.tv_rating);
+
         }
     }
 
