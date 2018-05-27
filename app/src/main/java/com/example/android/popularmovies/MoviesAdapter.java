@@ -17,6 +17,7 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder>{
 
     private List<Movie> movieList;
+    private static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
 
     //MoviesAdapter constructor
     public MoviesAdapter (List<Movie> movieslist){
@@ -24,16 +25,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView title;
-        public TextView rating;
+//        public TextView title;
+//        public TextView rating;
         public ImageView image;
 
         // MyViewHolder constructor
         public MyViewHolder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.image_posterView);
-            title = (TextView) itemView.findViewById(R.id.tv_title);
-            rating = (TextView) itemView.findViewById(R.id.tv_rating);
+            image = (ImageView) itemView.findViewById(R.id.imageView);
+//            title = (TextView) itemView.findViewById(R.id.tv_title);
+//            rating = (TextView) itemView.findViewById(R.id.tv_rating);
 
         }
     }
@@ -41,16 +42,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate movie list item o
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_list_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_poster, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(itemView);
         return myViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Picasso.get().load("http://image.tmdb.org/t/p/w185/" + movieList.get(position).getPosterUrl()).into(holder.image);
-        holder.title.setText(movieList.get(position).getTitle());
-        holder.rating.setText(movieList.get(position).getRating());
+        Picasso.get().load(IMAGE_URL_PATH + movieList.get(position).getPosterUrl()).into(holder.image);
+//        holder.title.setText(movieList.get(position).getTitle());
+//        holder.rating.setText(movieList.get(position).getRating());
     }
 
     @Override
