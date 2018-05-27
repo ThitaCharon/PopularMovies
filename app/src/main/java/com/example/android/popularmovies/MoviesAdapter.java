@@ -10,26 +10,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.Model.Movie;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder>{
 
     private List<Movie> movieList;
+    private Context contex;
 
-    public MoviesAdapter (List<Movie> movieslist){
+
+    //MoviesAdapter constructor
+    public MoviesAdapter (List<Movie> movieslist, Context context){
         this.movieList = movieslist;
+        this.contex = context;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView title;
-        public ImageView image;
         public TextView rating;
+        public ImageView image;
 
+        // MyViewHolder constructor
         public MyViewHolder(View itemView) {
             super(itemView);
+            image = (ImageView) itemView.findViewById(R.id.imageView);
             title = (TextView) itemView.findViewById(R.id.tv_title);
-            image = (ImageView) itemView.findViewById(R.id.image);
             rating = (TextView) itemView.findViewById(R.id.tv_rating);
 
         }
@@ -45,6 +51,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
+        //if call Picasso the cause Error
+//        Picasso.with(contex).load(movieList.get(position).getPosterUrl()).resize(50,50).placeholder(R.color.title).into(holder.image);
         holder.title.setText(movieList.get(position).getTitle());
         holder.rating.setText(movieList.get(position).getRating());
     }
@@ -56,4 +65,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         }
         return 0;
     }
+
+
 }

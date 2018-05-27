@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.android.popularmovies.Model.Movie;
 import com.example.android.popularmovies.Model.MovieRespond;
@@ -26,12 +27,12 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
-    private final static String API_KEY = "Apikey";
+    private final static String API_KEY = "APIKEY";
     public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
     private List<Movie> movieList = new ArrayList<>();;
-    private RecyclerView recyclerView;
+    private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
 
     @Override
@@ -42,20 +43,28 @@ public class MainActivity extends AppCompatActivity {
         openConnectionMovieApi();
 
         // populate movie data on RV
-        recyclerView = (RecyclerView) findViewById(R.id.rv_posters);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_view);
         RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mlayoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setLayoutManager(mlayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
     }
 
-    public boolean onCreateOptionMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu,menu);
         return true;
     }
-
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item){
+//        switch (item.getItemId()){
+//            case R.id.popularity_sorted:
+//            case R.id.rating_sorted:
+//        }
+//        return true;
+//    }
 
     void openConnectionMovieApi() {
         // check if retrofit is null then create a new one
@@ -82,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
                 Log.d(TAG, "Total # of movies : " + movieList.size());
-                moviesAdapter = new MoviesAdapter(movieList);
-                recyclerView.setAdapter(moviesAdapter);
+                moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
+                mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
             }
 

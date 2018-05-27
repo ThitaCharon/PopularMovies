@@ -4,11 +4,11 @@
     <item
         android:id="@+id/popularity_sorted"
         android:title="Popular"
-        app:showAsAction="ifRoom">
+        app:showAsAction="never">
     </item>
     <item
         android:id="@+id/rating_sorted"
         android:title="TopRate"
-        app:showAsAction="ifRoom">
+        app:showAsAction="never">
     </item>
 </menu>

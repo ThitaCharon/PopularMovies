@@ -1,9 +1,25 @@
     package com.example.android.popularmovies.Model;
 
 
+    import android.os.Parcel;
+    import android.os.Parcelable;
+
     import com.google.gson.annotations.SerializedName;
 
-    public class Movie {
+    public class Movie implements Parcelable {
+        // interface Parcelable
+        public static final Parcelable.Creator CREATOR = new  Parcelable.Creator(){
+
+            @Override
+            public Movie createFromParcel(Parcel source) {
+                return new Movie(source);
+            }
+
+            @Override
+            public Movie[] newArray(int size) {
+                return new Movie[size];
+            }
+        };
 
         @SerializedName("title")
         private String title;
@@ -33,7 +49,6 @@
         }
 
         // access modifier
-
         public int getId()              {   return id; }
         public String getTitle()        {   return title;       }
         public String getPosterUrl()    {   return poster;      }
@@ -50,4 +65,33 @@
         public void setPopularity(Double Popularity)    { this.popularity = popularity; }
         public void setOverview(String overview)        { this.overview = overview; }
         public void setDateRelease(String dateRelease)  { this.dateRelease = dateRelease; }
+
+
+        //Parcel constructor
+        public Movie(Parcel source) {
+            this.id = source.readInt();
+            this.title = source.readString();
+            this.poster = source.readString();
+            this.rating = source.readString();
+            this.popularity = source.readDouble();
+            this.overview = source.readString();
+            this.dateRelease = source.readString();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeString(this.title);
+            dest.writeString(this.poster);
+            dest.writeString(this.rating);
+            dest.writeString(this.rating);
+            dest.writeDouble(this.popularity);
+            dest.writeString(this.overview);
+            dest.writeString(this.dateRelease);
+        }
     }
