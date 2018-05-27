@@ -17,16 +17,10 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder>{
 
     private List<Movie> movieList;
-    private Context mContex;
-    private LayoutInflater mInflater;
-
 
     //MoviesAdapter constructor
-    public MoviesAdapter (List<Movie> movieslist, Context context){
+    public MoviesAdapter (List<Movie> movieslist){
         this.movieList = movieslist;
-        this.mContex = context;
-        this.mInflater = LayoutInflater.from(context);
-
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -37,7 +31,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         // MyViewHolder constructor
         public MyViewHolder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.imageView);
+            image = (ImageView) itemView.findViewById(R.id.image_posterView);
             title = (TextView) itemView.findViewById(R.id.tv_title);
             rating = (TextView) itemView.findViewById(R.id.tv_rating);
 
@@ -54,11 +48,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
-        //if call Picasso the Error
-        Picasso.get().load(movieList.get(position).getPosterUrl()).resize(50,50).into(holder.image);
-//        holder.title.setText(movieList.get(position).getTitle());
-//        holder.rating.setText(movieList.get(position).getRating());
+        Picasso.get().load("http://image.tmdb.org/t/p/w185/" + movieList.get(position).getPosterUrl()).into(holder.image);
+        holder.title.setText(movieList.get(position).getTitle());
+        holder.rating.setText(movieList.get(position).getRating());
     }
 
     @Override

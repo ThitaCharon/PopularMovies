@@ -3,6 +3,7 @@ package com.example.android.popularmovies;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
     private final static String API_KEY = "ApiKey";
-    public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
+    public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w342/";
 
     private static Retrofit retrofit = null;
     // Poppulate item in RV
@@ -45,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         // populate movie data on RV
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_view);
-        RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getApplicationContext());
-        mRecyclerView.setLayoutManager(mlayoutManager);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
                 Log.d(TAG, "Total # of movies : " + movieList.size());
-                moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
+                moviesAdapter = new MoviesAdapter(movieList);
                 mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
             }
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 Log.d(TAG, "Total # of movies : " + movieList.size());
-                moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
+                moviesAdapter = new MoviesAdapter(movieList);
                 mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
             }
