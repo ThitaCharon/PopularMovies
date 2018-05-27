@@ -27,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
-    private final static String API_KEY = "APIKEY";
+    private final static String API_KEY = "APIKey";
     public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
+
     private static Retrofit retrofit = null;
     // Poppulate item in RV
     private List<Movie> movieList = new ArrayList<>();;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // open connection to api
-        openConnectionMovieApi();
+        sortedPopular();
 
         // populate movie data on RV
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_view);
@@ -56,17 +57,20 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_menu,menu);
         return true;
     }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        switch (item.getItemId()){
-//            case R.id.popularity_sorted:
-//            case R.id.rating_sorted:
-//        }
-//        return true;
-//    }
 
-    void openConnectionMovieApi() {
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.popularity_sorted:
+                sortedPopular();
+            case R.id.rating_sorted:
+                sortedTopRate();
+        }
+        return true;
+    }
+
+    void sortedPopular() {
         // check if retrofit is null then create a new one
         if (retrofit == null) {
             retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
@@ -102,8 +106,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }// end openConnectionMovieApi()
+    }// end sortedPopular()
 
+    void sortedTopRate() {
+        // check if retrofit is null then create a new one
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create()).build();
+        }
+
+        MovieService movieService = retrofit.create(MovieService.class);
+        Call<MovieRespond> call = movieService.getMovieTopRate(API_KEY);
+        call.enqueue(new Callback<MovieRespond>() {
+            @Override
+            public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
+                Log.d(TAG,"success");
+                movieList = response.body().getMovieslist();
+                for(Movie m : movieList){
+                    Log.d("Title", m.getTitle());
+                    Log.d("id",m.getId()+"");
+                    Log.d("Poster", IMAGE_URL_PATH + m.getPosterUrl());
+                    Log.d("rating",m.getRating());
+                    Log.d("popularity", m.getPopularity()+ "");
+                    Log.d("over view ", m.getOverview());
+                    Log.d("Date Relase" ,m.getDateRelease());
+                }
+
+                Log.d(TAG, "Total # of movies : " + movieList.size());
+                moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
+                mRecyclerView.setAdapter(moviesAdapter);
+                moviesAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<MovieRespond> call, Throwable t) {
+                Log.e(TAG, "Error Failure on call.enqueue No responmi.d");
+            }
+        });
+
+    }// end sortedTopRate()
 }
 
 

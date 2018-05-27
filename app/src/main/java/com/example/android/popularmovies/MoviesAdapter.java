@@ -17,13 +17,16 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder>{
 
     private List<Movie> movieList;
-    private Context contex;
+    private Context mContex;
+    private LayoutInflater mInflater;
 
 
     //MoviesAdapter constructor
     public MoviesAdapter (List<Movie> movieslist, Context context){
         this.movieList = movieslist;
-        this.contex = context;
+        this.mContex = context;
+        this.mInflater = LayoutInflater.from(context);
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -52,8 +55,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        //if call Picasso the cause Error
-//        Picasso.with(contex).load(movieList.get(position).getPosterUrl()).resize(50,50).placeholder(R.color.title).into(holder.image);
+        //if call Picasso the Error occurs
+        Picasso.with(mContex).load(movieList.get(position).getPosterUrl()).resize(50,50).placeholder(R.color.title).into(holder.image);
         holder.title.setText(movieList.get(position).getTitle());
         holder.rating.setText(movieList.get(position).getRating());
     }
