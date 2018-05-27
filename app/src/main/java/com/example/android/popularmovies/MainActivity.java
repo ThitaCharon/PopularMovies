@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
-    private final static String API_KEY = "APIKey";
+    private final static String API_KEY = "ApiKey";
     public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
 
     private static Retrofit retrofit = null;

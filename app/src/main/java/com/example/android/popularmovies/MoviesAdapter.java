@@ -55,10 +55,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        //if call Picasso the Error occurs
-        Picasso.with(mContex).load(movieList.get(position).getPosterUrl()).resize(50,50).placeholder(R.color.title).into(holder.image);
-        holder.title.setText(movieList.get(position).getTitle());
-        holder.rating.setText(movieList.get(position).getRating());
+        //if call Picasso the Error
+        Picasso.get().load(movieList.get(position).getPosterUrl()).resize(50,50).into(holder.image);
+//        holder.title.setText(movieList.get(position).getTitle());
+//        holder.rating.setText(movieList.get(position).getRating());
     }
 
     @Override
