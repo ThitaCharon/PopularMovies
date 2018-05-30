@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MenuOptions" parent="Theme.AppCompat">
+        <item name="actionBarItemBackground">@color/colorPrimary</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
+    </style>
 </resources>
