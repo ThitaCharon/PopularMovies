@@ -51,11 +51,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 //            Log.d("Onclick display title", mTitle);
         Intent intent = new Intent(itemView.getContext(),DetailActivity.class);
         intent.putExtra(String.valueOf(R.string.INFO_TITLE), movieList.get(adapterPosition).getTitle());
-        MoviesAdapter.this.mContext.startActivity(intent);
+        try{
+            if(MoviesAdapter.this.mContext != null){
+                Log.d("mContext", "It is Not NULL");
+            MoviesAdapter.this.mContext.startActivity(intent);
 
-
-
+            }
+        }catch (RuntimeException e) {
+            Log.d(MoviesAdapter.class.getSimpleName(), "error");
         }
+        }
+
     }
 
     @Override

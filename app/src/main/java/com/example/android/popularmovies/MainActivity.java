@@ -33,13 +33,12 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
-    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
+    private final static String API_KEY = "ApiKey";
     public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w342/";
 
     private static Retrofit retrofit = null;
     // Poppulate item in RV
-    private List<Movie> movieList = new ArrayList<>();;
-    private List<Movie> mList = new ArrayList<>();;
+    private List<Movie> movieList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
 
@@ -54,10 +53,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        moviesAdapter = new MoviesAdapter(mList,this);
-        mRecyclerView.setAdapter(moviesAdapter);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -78,16 +74,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public void onClick(String title){
-//        Toast toast = Toast.makeText(this, "testing on click",Toast.LENGTH_LONG);
-//        toast.show();
-//        Context context = this;
-//        Class description = DetailActivity.class;
-//        Intent intent = new Intent(context, description);
-//        intent.putExtra("title","Modkowe");
-//        startActivity(intent);
-//    }
-
     private void sortedMovieApi(String query){
         // check if retrofit is null then create a new one
         if (retrofit == null) {
@@ -95,25 +81,25 @@ public class MainActivity extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create()).build();
         }
         MovieService movieService = retrofit.create(MovieService.class);
+
         Call<MovieRespond> call = movieService.getMovies(query, API_KEY);
         call.enqueue(new Callback<MovieRespond>() {
             @Override
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
                 Log.d(TAG,"success");
-                movieList = response.body().getMovieslist();
-                mList.addAll(movieList);
-//                for(Movie m : movieList){
-//                    Log.d("Title", m.getTitle());
-//                    Log.d("id",m.getId()+"");
-//                    Log.d("Poster", IMAGE_URL_PATH + m.getPosterUrl());
-//                    Log.d("rating",m.getRating());
-//                    Log.d("popularity", m.getPopularity()+ "");
-//                    Log.d("over view ", m.getOverview());
-//                    Log.d("Date Relase" ,m.getDateRelease());
-//            }
+                movieList.addAll(response.body().getMovieslist());
+                for(Movie m : movieList){
+                    Log.d("Title", m.getTitle());
+                    Log.d("id",m.getId()+"");
+                    Log.d("Poster", IMAGE_URL_PATH + m.getPosterUrl());
+                    Log.d("rating",m.getRating());
+                    Log.d("popularity", m.getPopularity()+ "");
+                    Log.d("over view ", m.getOverview());
+                    Log.d("Date Relase" ,m.getDateRelease());
+            }
                 Log.d(TAG, "Total # of movies : " + movieList.size());
-//                moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
-//                mRecyclerView.setAdapter(moviesAdapter);
+                moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
+                mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
             }
 
