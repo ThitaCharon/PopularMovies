@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static Retrofit retrofit = null;
     // Poppulate item in RV
     private List<Movie> movieList = new ArrayList<>();;
+    private List<Movie> mList = new ArrayList<>();;
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
 
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        moviesAdapter = new MoviesAdapter(mList,this);
+        mRecyclerView.setAdapter(moviesAdapter);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -90,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
             retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create()).build();
         }
-
         MovieService movieService = retrofit.create(MovieService.class);
         Call<MovieRespond> call = movieService.getMovies(query, API_KEY);
         call.enqueue(new Callback<MovieRespond>() {
@@ -98,18 +101,19 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
                 Log.d(TAG,"success");
                 movieList = response.body().getMovieslist();
-                for(Movie m : movieList){
-                    Log.d("Title", m.getTitle());
-                    Log.d("id",m.getId()+"");
-                    Log.d("Poster", IMAGE_URL_PATH + m.getPosterUrl());
-                    Log.d("rating",m.getRating());
-                    Log.d("popularity", m.getPopularity()+ "");
-                    Log.d("over view ", m.getOverview());
-                    Log.d("Date Relase" ,m.getDateRelease());
-            }
+                mList.addAll(movieList);
+//                for(Movie m : movieList){
+//                    Log.d("Title", m.getTitle());
+//                    Log.d("id",m.getId()+"");
+//                    Log.d("Poster", IMAGE_URL_PATH + m.getPosterUrl());
+//                    Log.d("rating",m.getRating());
+//                    Log.d("popularity", m.getPopularity()+ "");
+//                    Log.d("over view ", m.getOverview());
+//                    Log.d("Date Relase" ,m.getDateRelease());
+//            }
                 Log.d(TAG, "Total # of movies : " + movieList.size());
-                moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
-                mRecyclerView.setAdapter(moviesAdapter);
+//                moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
+//                mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
             }
 
