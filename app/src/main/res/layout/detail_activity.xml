@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,7 +15,7 @@
         <ImageView
             android:id="@+id/tv_detaitActivity_posterimage"
             android:layout_width="match_parent"
-            android:layout_height="530sp"
+            android:layout_height="520sp"
             android:layout_alignParentTop="true"
             android:paddingBottom="18dp"/>
 
@@ -97,4 +96,4 @@
     </LinearLayout>
     </LinearLayout>
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

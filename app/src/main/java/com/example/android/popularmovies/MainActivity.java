@@ -1,5 +1,8 @@
 package com.example.android.popularmovies;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
+    private final static String API_KEY = "ApiKey";
     public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w342/";
 
     private static Retrofit retrofit = null;
@@ -35,16 +38,14 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
 
-    //query keyword
-    private String query = "popular";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // open connection to api
-        sortedMovieApi(query);
-
+        if (isOnline()) {
+            sortedMovieApi(getString(R.string.query_popular));
+        }
         // populate movie data on RV
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -61,13 +62,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.popularity_sorted:
-                query = "popular";
-                sortedMovieApi(query);
-                return true;
+                sortedMovieApi(getString(R.string.query_popular));
             case R.id.rating_sorted:
-                query = "top_rated";
-                sortedMovieApi(query);
-                return true;
+                sortedMovieApi(getString(R.string.query_top_rated));
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -87,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
                 Log.d(TAG,"success");
+                movieList.clear();
                 movieList.addAll(response.body().getMovieslist());
                 for(Movie m : movieList){
                     Log.d("Title", m.getTitle());
@@ -109,6 +107,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }// end sortedMovieApi()
+
+
+    /*
+        isOnline() method will check the internet connection stage to prevent app get crashing
+        reference "https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out"
+     */
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
 }
 
 
