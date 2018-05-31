@@ -3,10 +3,10 @@
     <string name="query_top_rated">top_rated</string>
     <string name="query_popular">popular</string>
 
-    <string name="INFO_TITLE">INFO_TITLE</string>
-    <string name="INFO_RATING">INFO_RATING</string>
-    <string name="INFO_RELEASEDATE">INFO_DATERELEASE</string>
-    <string name="INFO_DESCRIPTION">DESC</string>
-    <string name="INFO_POSTERLINK">POSTER</string>
+    <string name="INFO_TITLE">TITLE  : </string>
+    <string name="INFO_RATING">RATING : </string>
+    <string name="INFO_DATERELEASE">DATE RELEASE : </string>
+    <string name="INFO_DESCRIPTION">OVERVIEW : </string>
+    <string name="INFO_POSTERLINK">POSTERLINK</string>
 
 </resources>

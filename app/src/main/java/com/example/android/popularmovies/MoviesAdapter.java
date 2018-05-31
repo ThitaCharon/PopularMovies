@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.popularmovies.Model.Movie;
 import com.squareup.picasso.Picasso;
@@ -21,7 +19,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     private List<Movie> movieList;
     private Context mContext;
-    private static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
+    public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
 
     //MoviesAdapter constructor
     public MoviesAdapter (List<Movie> movieslist, Context context){
@@ -29,8 +27,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         mContext = context;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-//        public TextView title;
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        //        public TextView title;
 //        public TextView rating;
         public ImageView image;
 
@@ -47,23 +45,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         @Override
         public void onClick(View itemView) {
             int adapterPosition = getAdapterPosition();
-//            String mTitle = movieList.get(adapterPosition).getTitle();
-//            Log.d("Onclick display title", mTitle);
-        Intent intent = new Intent(itemView.getContext(),DetailActivity.class);
-        intent.putExtra(String.valueOf(R.string.INFO_TITLE), movieList.get(adapterPosition).getTitle());
-        try{
-            if(MoviesAdapter.this.mContext != null){
-                Log.d("mContext", "It is Not NULL");
-            MoviesAdapter.this.mContext.startActivity(intent);
-
+            Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
+            intent.putExtra(String.valueOf(R.string.INFO_TITLE), movieList.get(adapterPosition).getTitle());
+            intent.putExtra(String.valueOf(R.string.INFO_RATING), movieList.get(adapterPosition).getRating());
+            intent.putExtra(String.valueOf(R.string.INFO_DATERELEASE), movieList.get(adapterPosition).getDateRelease());
+            intent.putExtra(String.valueOf(R.string.INFO_DESCRIPTION), movieList.get(adapterPosition).getOverview());
+            intent.putExtra(String.valueOf(R.string.INFO_POSTERLINK), movieList.get(adapterPosition).getPosterUrl());
+            try {
+                MoviesAdapter.this.mContext.startActivity(intent);
+            } catch (RuntimeException e) {
+                Log.d(MoviesAdapter.class.getSimpleName(), "error" + e.getMessage());
             }
-        }catch (RuntimeException e) {
-            Log.d(MoviesAdapter.class.getSimpleName(), "error");
         }
-        }
-
     }
-
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate movie list item o

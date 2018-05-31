@@ -4,7 +4,6 @@
     <item
         android:id="@+id/popularity_sorted"
         android:title="Popular"
-
         app:showAsAction="never">
     </item>
     <item

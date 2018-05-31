@@ -1,20 +1,13 @@
 package com.example.android.popularmovies;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.android.popularmovies.Model.Movie;
 import com.example.android.popularmovies.Model.MovieRespond;
@@ -32,8 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity.class : ";
-    private static final String BASE_URL = "https://api.themoviedb.org/3/";
-    private final static String API_KEY = "ApiKey";
+    private static final String BASE_URL = "https://api.themoviedb.org";
+    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
     public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w342/";
 
     private static Retrofit retrofit = null;
@@ -42,18 +35,20 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
 
+    //query keyword
+    private String query = "popular";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // open connection to api
-        sortedMovieApi(getString(R.string.query_popular));
+        sortedMovieApi(query);
 
         // populate movie data on RV
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         mRecyclerView.setHasFixedSize(true);
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -66,12 +61,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.popularity_sorted:
-                sortedMovieApi(getString(R.string.query_popular));
+                query = "popular";
+                sortedMovieApi(query);
+                return true;
             case R.id.rating_sorted:
-                sortedMovieApi(getString(R.string.query_top_rated));
+                query = "top_rated";
+                sortedMovieApi(query);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
 
     private void sortedMovieApi(String query){
@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create()).build();
         }
         MovieService movieService = retrofit.create(MovieService.class);
-
         Call<MovieRespond> call = movieService.getMovies(query, API_KEY);
+        Log.d("Query ", query);
         call.enqueue(new Callback<MovieRespond>() {
             @Override
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("rating",m.getRating());
                     Log.d("popularity", m.getPopularity()+ "");
                     Log.d("over view ", m.getOverview());
-                    Log.d("Date Relase" ,m.getDateRelease());
+                    Log.d("Date Release" ,m.getDateRelease());
             }
                 Log.d(TAG, "Total # of movies : " + movieList.size());
                 moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
@@ -105,11 +105,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MovieRespond> call, Throwable t) {
-                Log.e(TAG, "Error Failure on call.enqueue No responmi.d");
+                Log.e(TAG, "Error Failure on call.enqueue No respond");
             }
         });
     }// end sortedMovieApi()
-
 }
 
 
