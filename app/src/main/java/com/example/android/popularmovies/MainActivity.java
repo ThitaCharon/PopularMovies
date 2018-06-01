@@ -29,9 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private final static String API_KEY = "ApiKey";
-    public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w342/";
-
+    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
     private List<Movie> movieList = new ArrayList<>();
@@ -63,12 +61,13 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.popularity_sorted:
                 sortedMovieApi(getString(R.string.query_popular));
+                return true;
             case R.id.rating_sorted:
                 sortedMovieApi(getString(R.string.query_top_rated));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void sortedMovieApi(String query){
@@ -79,23 +78,12 @@ public class MainActivity extends AppCompatActivity {
         }
         MovieService movieService = retrofit.create(MovieService.class);
         Call<MovieRespond> call = movieService.getMovies(query, API_KEY);
-        Log.d("Query ", query);
+
         call.enqueue(new Callback<MovieRespond>() {
             @Override
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
-                Log.d(TAG,"success");
                 movieList.clear();
                 movieList.addAll(response.body().getMovieslist());
-                for(Movie m : movieList){
-                    Log.d("Title", m.getTitle());
-                    Log.d("id",m.getId()+"");
-                    Log.d("Poster", IMAGE_URL_PATH + m.getPosterUrl());
-                    Log.d("rating",m.getRating());
-                    Log.d("popularity", m.getPopularity()+ "");
-                    Log.d("over view ", m.getOverview());
-                    Log.d("Date Release" ,m.getDateRelease());
-            }
-                Log.d(TAG, "Total # of movies : " + movieList.size());
                 moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
                 mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
@@ -108,12 +96,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }// end sortedMovieApi()
 
-
     /*
         isOnline() method will check the internet connection stage to prevent app get crashing
         reference "https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out"
      */
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();

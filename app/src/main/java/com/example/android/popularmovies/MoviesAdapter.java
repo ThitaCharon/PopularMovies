@@ -17,19 +17,18 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder>{
 
-    private List<Movie> movieList;
+    public List<Movie> movieList;
     private Context mContext;
     public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
 
     //MoviesAdapter constructor
-    public MoviesAdapter (List<Movie> movieslist, Context context){
+    public MoviesAdapter (List<Movie> movieslist, Context mContext){
         this.movieList = movieslist;
-        mContext = context;
+        this.mContext = mContext;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        //        public TextView title;
-//        public TextView rating;
+
         public ImageView image;
 
         // MyViewHolder constructor
@@ -37,9 +36,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.imageView);
             itemView.setOnClickListener(this);
-//            title = (TextView) itemView.findViewById(R.id.tv_title);
-//            rating = (TextView) itemView.findViewById(R.id.tv_rating);
-
         }
 
         @Override
@@ -54,7 +50,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             try {
                 MoviesAdapter.this.mContext.startActivity(intent);
             } catch (RuntimeException e) {
-                Log.d(MoviesAdapter.class.getSimpleName(), "error" + e.getMessage());
+                Log.d(MoviesAdapter.class.getSimpleName(), e.getMessage());
             }
         }
     }
@@ -62,15 +58,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate movie list item o
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_poster, parent, false);
-        MyViewHolder myViewHolder = new MyViewHolder(itemView);
-        return myViewHolder;
+        return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Picasso.get().load(IMAGE_URL_PATH + movieList.get(position).getPosterUrl()).into(holder.image);
-//        holder.title.setText(movieList.get(position).getTitle());
-//        holder.rating.setText(movieList.get(position).getRating());
     }
 
     @Override

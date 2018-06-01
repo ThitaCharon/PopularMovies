@@ -3,8 +3,6 @@
     <color name="colorPrimary">#b40825</color>
     <color name="colorPrimaryDark">#830023</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="year">#487894</color>
-    <color name="title">#130666</color>
     <color name="Header">#a92424</color>
     <color name="font">#790c0c</color>
 </resources>

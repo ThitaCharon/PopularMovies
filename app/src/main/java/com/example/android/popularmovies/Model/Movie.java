@@ -68,7 +68,7 @@
 
 
         //Parcel constructor
-        public Movie(Parcel source) {
+        private Movie(Parcel source) {
             this.id = source.readInt();
             this.title = source.readString();
             this.poster = source.readString();
