@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
+    private final static String API_KEY = "ApiKey";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
     private List<Movie> movieList = new ArrayList<>();
