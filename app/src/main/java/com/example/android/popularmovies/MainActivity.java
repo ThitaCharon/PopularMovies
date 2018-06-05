@@ -3,6 +3,7 @@ package com.example.android.popularmovies;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,9 +28,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String TAG = "MainActivity.class : ";
+    private static final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private final static String API_KEY = "ApiKey";
+    private final static String API_KEY = "API";
+    private final static String MOVIELIST_KEY = "MOVIELIST_KEY";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
     private List<Movie> movieList = new ArrayList<>();
@@ -41,9 +43,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // open connection to api
-        if (isOnline()) {
-            sortedMovieApi(getString(R.string.query_popular));
+        if (isOnline()) { sortedMovieApi(getString(R.string.query_popular)); }
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(MOVIELIST_KEY)){
+            movieList = savedInstanceState.getParcelableArrayList(MOVIELIST_KEY);
+            Log.d(TAG,"Retrieve data from SaveInstanceStance");
         }
+
         // populate movie data on RV
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -104,6 +110,13 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(MOVIELIST_KEY, (ArrayList<? extends Parcelable>) movieList);
+        Log.v(TAG, "Saving the bundle");
     }
 }
 

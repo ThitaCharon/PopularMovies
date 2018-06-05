@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.android.popularmovies.Model.Movie;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -30,11 +32,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView image;
+        public ProgressBar progressBar;
 
         // MyViewHolder constructor
         public MyViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.imageView);
+            progressBar = itemView.findViewById(R.id.progressbar);
             itemView.setOnClickListener(this);
         }
 
@@ -62,8 +66,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Picasso.get().load(IMAGE_URL_PATH + movieList.get(position).getPosterUrl()).into(holder.image);
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        Picasso.get().load(IMAGE_URL_PATH + movieList.get(position).getPosterUrl())
+                .into(holder.image, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
     }
 
     @Override

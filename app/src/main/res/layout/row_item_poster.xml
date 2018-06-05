@@ -10,4 +10,10 @@
         android:id="@+id/imageView"
         android:padding="2dp"
         android:fadingEdge="vertical" />
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/colorLightGray"
+        android:layout_height="match_parent" />
 </RelativeLayout>
