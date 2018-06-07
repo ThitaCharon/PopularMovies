@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.Model.Movie;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
@@ -22,6 +23,15 @@ public class DetailActivity extends AppCompatActivity {
         ImageView poster = findViewById(R.id.tv_detialActivity_posterimage);
 
         Intent intent = getIntent();
+        Movie mInfo = intent.getParcelableExtra("mInfo");
+
+        title.setText(mInfo.getTitle());
+        rating.setText(mInfo.getRating());
+        Picasso.get().load("http://image.tmdb.org/t/p/original/" + mInfo.getPosterUrl()).into(poster);
+        dateRelease.setText(mInfo.getDateRelease());
+        desc.setText(mInfo.describeContents());
+
+        /**
         Bundle extras = intent.getExtras();
         Log.d( "Rating ", (String) extras.get(String.valueOf(R.string.INFO_RATING)));
 
@@ -33,5 +43,6 @@ public class DetailActivity extends AppCompatActivity {
             dateRelease.setText( extras.getString(String.valueOf(R.string.INFO_DATERELEASE)));
             desc.setText( extras.getString(String.valueOf(R.string.INFO_DESCRIPTION)));
         }
+         **/
     }
 }

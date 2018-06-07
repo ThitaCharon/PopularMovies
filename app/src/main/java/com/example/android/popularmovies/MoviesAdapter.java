@@ -46,11 +46,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         public void onClick(View itemView) {
             int adapterPosition = getAdapterPosition();
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-            intent.putExtra(String.valueOf(R.string.INFO_TITLE), movieList.get(adapterPosition).getTitle());
-            intent.putExtra(String.valueOf(R.string.INFO_RATING), movieList.get(adapterPosition).getRating());
-            intent.putExtra(String.valueOf(R.string.INFO_DATERELEASE), movieList.get(adapterPosition).getDateRelease());
-            intent.putExtra(String.valueOf(R.string.INFO_DESCRIPTION), movieList.get(adapterPosition).getOverview());
-            intent.putExtra(String.valueOf(R.string.INFO_POSTERLINK), movieList.get(adapterPosition).getPosterUrl());
+//            intent.putExtra(String.valueOf(R.string.INFO_TITLE), movieList.get(adapterPosition).getTitle());
+//            intent.putExtra(String.valueOf(R.string.INFO_RATING), movieList.get(adapterPosition).getRating());
+//            intent.putExtra(String.valueOf(R.string.INFO_DATERELEASE), movieList.get(adapterPosition).getDateRelease());
+//            intent.putExtra(String.valueOf(R.string.INFO_DESCRIPTION), movieList.get(adapterPosition).getOverview());
+//            intent.putExtra(String.valueOf(R.string.INFO_POSTERLINK), movieList.get(adapterPosition).getPosterUrl());
+        // Using Parcelable
+            intent.putExtra("mInfo", movieList.get(adapterPosition));
+
             try {
                 MoviesAdapter.this.mContext.startActivity(intent);
             } catch (RuntimeException e) {

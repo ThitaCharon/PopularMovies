@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private final static String API_KEY = "API";
+    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
     private final static String MOVIELIST_KEY = "MOVIELIST_KEY";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
@@ -90,6 +90,10 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
                 movieList.clear();
                 movieList.addAll(response.body().getMovieslist());
+                for(Movie m: movieList) {
+                    Log.d("id", m.getId() + "");
+                    Log.d("title", m.getTitle() + "");
+                }
                 moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
                 mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();

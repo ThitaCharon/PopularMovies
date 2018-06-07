@@ -7,19 +7,6 @@
     import com.google.gson.annotations.SerializedName;
 
     public class Movie implements Parcelable {
-        // interface Parcelable
-        public static final Parcelable.Creator CREATOR = new  Parcelable.Creator(){
-
-            @Override
-            public Movie createFromParcel(Parcel source) {
-                return new Movie(source);
-            }
-
-            @Override
-            public Movie[] newArray(int size) {
-                return new Movie[size];
-            }
-        };
 
         @SerializedName("title")
         private String title;
@@ -36,7 +23,7 @@
         @SerializedName("id")
         private int id;
 
-        // parameter constructer
+        // parameter constructor
         public Movie (String title, String poster, String overview, String popularVote, String rating,
                       String dateRelease, int id, double popularity){
             this.id = id;
@@ -47,6 +34,29 @@
             this.overview = overview;
             this.dateRelease = dateRelease;
         }
+
+        //Using Parcel constructor
+        private Movie(Parcel source) {
+            this.id = source.readInt();
+            this.title = source.readString();
+            this.poster = source.readString();
+            this.rating = source.readString();
+            this.popularity = source.readDouble();
+            this.overview = source.readString();
+            this.dateRelease = source.readString();
+        }
+
+        // interface Parcelable
+        public static final Parcelable.Creator CREATOR = new  Parcelable.Creator(){
+            @Override
+            public Movie createFromParcel(Parcel source) {
+                return new Movie(source);
+            }
+            @Override
+            public Movie[] newArray(int size) {
+                return new Movie[size];
+            }
+        };
 
         // access modifier
         public int getId()              {   return id; }
@@ -65,18 +75,6 @@
         public void setPopularity(Double Popularity)    { this.popularity = popularity; }
         public void setOverview(String overview)        { this.overview = overview; }
         public void setDateRelease(String dateRelease)  { this.dateRelease = dateRelease; }
-
-
-        //Parcel constructor
-        private Movie(Parcel source) {
-            this.id = source.readInt();
-            this.title = source.readString();
-            this.poster = source.readString();
-            this.rating = source.readString();
-            this.popularity = source.readDouble();
-            this.overview = source.readString();
-            this.dateRelease = source.readString();
-        }
 
         @Override
         public int describeContents() {
