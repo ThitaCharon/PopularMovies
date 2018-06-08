@@ -1,5 +1,6 @@
 package com.example.android.popularmovies;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,19 +22,26 @@ public class DetailActivity extends AppCompatActivity {
         TextView dateRelease = findViewById(R.id.tv_detialActivity_DateRelease);
         TextView desc =  findViewById(R.id.tv_detialActivity_desc);
         ImageView poster = findViewById(R.id.tv_detialActivity_posterimage);
+        final String tag = DetailActivity.class.getSimpleName();
 
         Intent intent = getIntent();
-        Movie mInfo = intent.getParcelableExtra("mInfo");
+
+
+        final Movie mInfo = intent.getParcelableExtra("mInfo");
+        Log.d(tag +" id ", mInfo.getId() + "");
+        Log.d(tag +" title ", mInfo.getTitle() + "");
+        Log.d(tag + " Overview", mInfo.getOverview() + "");
 
         title.setText(mInfo.getTitle());
         rating.setText(mInfo.getRating());
         Picasso.get().load("http://image.tmdb.org/t/p/original/" + mInfo.getPosterUrl()).into(poster);
         dateRelease.setText(mInfo.getDateRelease());
-        desc.setText(mInfo.describeContents());
+        desc.setText(mInfo.getOverview());
+
+
 
         /**
         Bundle extras = intent.getExtras();
-        Log.d( "Rating ", (String) extras.get(String.valueOf(R.string.INFO_RATING)));
 
         if (extras != null) {
             String posterurl = ( extras.getString(String.valueOf(R.string.INFO_POSTERLINK)));
@@ -43,6 +51,6 @@ public class DetailActivity extends AppCompatActivity {
             dateRelease.setText( extras.getString(String.valueOf(R.string.INFO_DATERELEASE)));
             desc.setText( extras.getString(String.valueOf(R.string.INFO_DESCRIPTION)));
         }
-         **/
+**/
     }
 }

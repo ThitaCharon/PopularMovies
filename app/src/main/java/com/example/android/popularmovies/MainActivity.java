@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // populate movie data on RV
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_view);
+        mRecyclerView = findViewById(R.id.rv_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         mRecyclerView.setHasFixedSize(true);
     }
@@ -91,8 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 movieList.clear();
                 movieList.addAll(response.body().getMovieslist());
                 for(Movie m: movieList) {
-                    Log.d("id", m.getId() + "");
-                    Log.d("title", m.getTitle() + "");
+                    Log.d("From Respond id", m.getId() + "");
+                    Log.d("From Respond title", m.getTitle());
+                    Log.d("From Respond Overview", m.getOverview());
                 }
                 moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
                 mRecyclerView.setAdapter(moviesAdapter);

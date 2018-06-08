@@ -2,6 +2,7 @@ package com.example.android.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -51,8 +52,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 //            intent.putExtra(String.valueOf(R.string.INFO_DATERELEASE), movieList.get(adapterPosition).getDateRelease());
 //            intent.putExtra(String.valueOf(R.string.INFO_DESCRIPTION), movieList.get(adapterPosition).getOverview());
 //            intent.putExtra(String.valueOf(R.string.INFO_POSTERLINK), movieList.get(adapterPosition).getPosterUrl());
+
         // Using Parcelable
-            intent.putExtra("mInfo", movieList.get(adapterPosition));
+            final Movie movie = movieList.get(adapterPosition);
+            intent.putExtra("mInfo", movie);
+                Log.d (MoviesAdapter.class.getSimpleName() , movie.getTitle());
+                Log.d (MoviesAdapter.class.getSimpleName() , movie.getOverview());
 
             try {
                 MoviesAdapter.this.mContext.startActivity(intent);
