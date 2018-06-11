@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import com.example.android.popularmovies.Model.Movie;
 import com.example.android.popularmovies.Model.MovieRespond;
 import com.example.android.popularmovies.Model.MovieService;
+import com.example.android.popularmovies.Model.Video;
+import com.example.android.popularmovies.Model.VideoRespond;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity.class : ";
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
+    private final static String API_KEY = "Apikey";
     private final static String MOVIELIST_KEY = "MOVIELIST_KEY";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
     private List<Movie> movieList = new ArrayList<>();
+    private List<Video> videosList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
 
@@ -82,22 +85,26 @@ public class MainActivity extends AppCompatActivity {
             retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create()).build();
         }
-        MovieService movieService = retrofit.create(MovieService.class);
-        Call<MovieRespond> call = movieService.getMovies(query, API_KEY);
+        final MovieService movieService = retrofit.create(MovieService.class);
+        Call<MovieRespond> mCall = movieService.getMovies(query, API_KEY);
 
-        call.enqueue(new Callback<MovieRespond>() {
+        mCall.enqueue(new Callback<MovieRespond>() {
             @Override
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
                 movieList.clear();
                 movieList.addAll(response.body().getMovieslist());
+
                 for(Movie m: movieList) {
                     Log.d("From Respond id", m.getId() + "");
                     Log.d("From Respond title", m.getTitle());
                     Log.d("From Respond Overview", m.getOverview());
                 }
+                retrieveVideos(157336, movieService);
+
                 moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
                 mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -107,6 +114,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }// end sortedMovieApi()
 
+
+    private void retrieveVideos (int id, MovieService service){
+
+        Call<VideoRespond> vCall = service.getVideos(157336+"",API_KEY);
+        vCall.enqueue(new Callback<VideoRespond>() {
+            @Override
+            public void onResponse(Call<VideoRespond> call, Response<VideoRespond> response) {
+                // TODO try get list of Video
+                Log.d(TAG, "pass in retrieceVedios");
+                videosList.clear();
+                videosList.addAll(response.body().getVideoslist());
+
+                for(Video v: videosList) {
+                    Log.d("Video's id", v.getId() + "");
+                    Log.d("Video's Name", v.getName());
+                    Log.d("Video's Size and Site ", v.getSize() + v.getSite());
+                }
+            }
+            @Override
+            public void onFailure(Call<VideoRespond> call, Throwable t) {
+                Log.e(TAG, "Error Failure on vCall enqueue No respond");
+            }
+        });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(MOVIELIST_KEY, (ArrayList<? extends Parcelable>) movieList);
+        Log.v(TAG, "Saving the bundle");
+    }
+
+
     /*
         isOnline() method will check the internet connection stage to prevent app get crashing
         reference "https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out"
@@ -115,13 +155,6 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(MOVIELIST_KEY, (ArrayList<? extends Parcelable>) movieList);
-        Log.v(TAG, "Saving the bundle");
     }
 }
 

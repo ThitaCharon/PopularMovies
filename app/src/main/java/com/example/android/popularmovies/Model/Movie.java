@@ -36,7 +36,7 @@
         }
 
         //Using Parcel constructor
-        private Movie(Parcel source) {
+        protected Movie(Parcel source) {
             this.id = source.readInt();
             this.title = source.readString();
             this.poster = source.readString();
@@ -46,7 +46,7 @@
             this.dateRelease = source.readString();
         }
 
-        // interface Parcelable
+        // interface Parcelable callback to parcel
         public static final Parcelable.Creator CREATOR = new  Parcelable.Creator(){
             @Override
             public Movie createFromParcel(Parcel source) {
@@ -86,7 +86,6 @@
             dest.writeInt(this.id);
             dest.writeString(this.title);
             dest.writeString(this.poster);
-            dest.writeString(this.rating);
             dest.writeString(this.rating);
             dest.writeDouble(this.popularity);
             dest.writeString(this.overview);

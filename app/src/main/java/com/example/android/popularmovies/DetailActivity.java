@@ -38,8 +38,6 @@ public class DetailActivity extends AppCompatActivity {
         dateRelease.setText(mInfo.getDateRelease());
         desc.setText(mInfo.getOverview());
 
-
-
         /**
         Bundle extras = intent.getExtras();
 
@@ -51,6 +49,6 @@ public class DetailActivity extends AppCompatActivity {
             dateRelease.setText( extras.getString(String.valueOf(R.string.INFO_DATERELEASE)));
             desc.setText( extras.getString(String.valueOf(R.string.INFO_DESCRIPTION)));
         }
-**/
+        **/
     }
 }
