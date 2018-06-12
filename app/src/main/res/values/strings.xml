@@ -8,5 +8,6 @@
     <string name="INFO_DATERELEASE">DATE RELEASE : </string>
     <string name="INFO_DESCRIPTION">OVERVIEW : </string>
     <string name="INFO_POSTERLINK">POSTERLINK</string>
+    <string name="INFO_TRAILERS">TRAILERS :</string>
 
 </resources>

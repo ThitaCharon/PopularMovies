@@ -18,7 +18,7 @@ public class Video implements Parcelable {
      */
 
     @SerializedName("id")
-    private int id;
+    private String id;
     // missing iso..
     @SerializedName("key")
     private String key;
@@ -32,7 +32,7 @@ public class Video implements Parcelable {
     private String type;
 
     // constructor
-    public Video(int id, String key, String name, String site, int size, String type) {
+    public Video(String id, String key, String name, String site, int size, String type) {
         this.id = id;
         this.key = key;
         this.name = name;
@@ -42,7 +42,7 @@ public class Video implements Parcelable {
     }
 
     //getter
-    public int getId() { return id; }
+    public String getId() { return id; }
     public String getKey() { return key; }
     public String getName() { return name; }
     public String getSite() { return site; }
@@ -50,7 +50,7 @@ public class Video implements Parcelable {
     public String getType() { return type; }
 
     //setter
-    public void setId(int id) { this.id = id; }
+    public void setId(String id) { this.id = id; }
     public void setKey(String key) { this.key = key; }
     public void setName(String name) { this.name = name; }
     public void setSite(String site) { this.site = site; }
@@ -64,7 +64,7 @@ public class Video implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.key);
         dest.writeString(this.name);
         dest.writeString(this.site);
@@ -74,7 +74,7 @@ public class Video implements Parcelable {
 
     // constructor parcel
     protected Video(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readString();
         this.key = in.readString();
         this.name = in.readString();
         this.site = in.readString();

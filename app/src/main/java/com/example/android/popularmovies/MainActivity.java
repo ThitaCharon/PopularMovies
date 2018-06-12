@@ -1,6 +1,7 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Parcelable;
@@ -16,6 +17,8 @@ import android.view.MenuItem;
 import com.example.android.popularmovies.Model.Movie;
 import com.example.android.popularmovies.Model.MovieRespond;
 import com.example.android.popularmovies.Model.MovieService;
+import com.example.android.popularmovies.Model.Review;
+import com.example.android.popularmovies.Model.ReviewRespond;
 import com.example.android.popularmovies.Model.Video;
 import com.example.android.popularmovies.Model.VideoRespond;
 
@@ -30,14 +33,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity.class : ";
+    private static final String TAG = "MainActivity.class";
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private final static String API_KEY = "Apikey";
+    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
     private final static String MOVIELIST_KEY = "MOVIELIST_KEY";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
     private List<Movie> movieList = new ArrayList<>();
     private List<Video> videosList = new ArrayList<>();
+    private List<Review> reviewsList = new ArrayList<>();
+    private List<Integer>   mIdList = new ArrayList<Integer>();
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
 
@@ -91,52 +96,72 @@ public class MainActivity extends AppCompatActivity {
         mCall.enqueue(new Callback<MovieRespond>() {
             @Override
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
+                mIdList.clear();
                 movieList.clear();
+
                 movieList.addAll(response.body().getMovieslist());
 
                 for(Movie m: movieList) {
-                    Log.d("From Respond id", m.getId() + "");
-                    Log.d("From Respond title", m.getTitle());
-                    Log.d("From Respond Overview", m.getOverview());
+                    mIdList.add(m.getId());
+                    Log.d("Movie's title", m.getId()+ " | " + m.getTitle() );
+                    retrieveVideos(m.getId(), movieService);
+//                    retrieveReviews(m.getId(), movieService);
                 }
-                retrieveVideos(157336, movieService);
 
                 moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
                 mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
-
             }
 
             @Override
             public void onFailure(Call<MovieRespond> call, Throwable t) {
-                Log.e(TAG, "Error Failure on call.enqueue No respond");
+                Log.e(TAG, "Error Failure on mCall.enqueue No respond");
             }
         });
     }// end sortedMovieApi()
 
+    private void retrieveVideos (final int id, MovieService service){
 
-    private void retrieveVideos (int id, MovieService service){
-
-        Call<VideoRespond> vCall = service.getVideos(157336+"",API_KEY);
+        Call<VideoRespond> vCall = service.getVideos(id + "", API_KEY);
         vCall.enqueue(new Callback<VideoRespond>() {
             @Override
             public void onResponse(Call<VideoRespond> call, Response<VideoRespond> response) {
-                // TODO try get list of Video
-                Log.d(TAG, "pass in retrieceVedios");
                 videosList.clear();
                 videosList.addAll(response.body().getVideoslist());
-
-                for(Video v: videosList) {
-                    Log.d("Video's id", v.getId() + "");
-                    Log.d("Video's Name", v.getName());
-                    Log.d("Video's Size and Site ", v.getSize() + v.getSite());
+                Log.d("Video Id" , id + " Size " + videosList.size() );
+                for (Video v : videosList) {
+                    Log.d("Videos ",  v.getName() + v.getSite() + v.getSize());
                 }
             }
+
             @Override
             public void onFailure(Call<VideoRespond> call, Throwable t) {
                 Log.e(TAG, "Error Failure on vCall enqueue No respond");
             }
         });
+    }
+
+
+//    private void retrieveReviews(final int id, MovieService movieService){
+    private void retrieveReviews(MovieService movieService) {
+        for (Integer id :mIdList) {
+        Call<ReviewRespond> rCall = movieService.getReviews(id+ "", API_KEY);
+        rCall.enqueue(new Callback<ReviewRespond>() {
+            @Override
+            public void onResponse(Call<ReviewRespond> call, Response<ReviewRespond> response) {
+                reviewsList.clear();
+                reviewsList.addAll(response.body().getReviewsList());
+                Log.d("Review Id" ,   " Size "+reviewsList.size());
+                for (Review r : reviewsList) {
+                    Log.d("Reviews  ",  r.getUrl());
+                }
+            }
+            @Override
+            public void onFailure(Call<ReviewRespond> call, Throwable t) {
+                Log.e(TAG, "Error Failure on rCall enqueue No respond");
+            }
+        });
+        }
     }
 
     @Override
@@ -145,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
         outState.putParcelableArrayList(MOVIELIST_KEY, (ArrayList<? extends Parcelable>) movieList);
         Log.v(TAG, "Saving the bundle");
     }
-
 
     /*
         isOnline() method will check the internet connection stage to prevent app get crashing
