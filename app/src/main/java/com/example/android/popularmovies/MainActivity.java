@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity.class";
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
+    private final static String API_KEY = "Apikey";
     private final static String MOVIELIST_KEY = "MOVIELIST_KEY";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
