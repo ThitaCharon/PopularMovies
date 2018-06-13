@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.Model.Movie;
+import com.example.android.popularmovies.Model.Review;
 import com.example.android.popularmovies.Model.Video;
 import com.squareup.picasso.Picasso;
 
@@ -20,16 +22,20 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
-        TextView title = findViewById(R.id.tv_detialActivity_Title);
-        TextView rating = findViewById(R.id.tv_detialActivity_Rating);
-        TextView dateRelease = findViewById(R.id.tv_detialActivity_DateRelease);
-        TextView desc =  findViewById(R.id.tv_detialActivity_desc);
-        ImageView poster = findViewById(R.id.tv_detialActivity_posterimage);
+        TextView title = findViewById(R.id.tv_detailActivity_Title);
+        TextView rating = findViewById(R.id.tv_detailActivity_Rating);
+        TextView dateRelease = findViewById(R.id.tv_detailActivity_DateRelease);
+        TextView desc =  findViewById(R.id.tv_detailActivity_desc);
+        ImageView poster = findViewById(R.id.tv_detailActivity_posterimage);
+        Button favBotton = findViewById(R.id.btn_favorite);
+
         final String tag = DetailActivity.class.getSimpleName();
 
         Intent intent = getIntent();
         final Movie mInfo = intent.getParcelableExtra("mInfo");
-        Log.d(tag +" title ", mInfo.getTitle() + "");
+//        final List<Review> reviewslist = intent.getParcelableArrayListExtra("REVIEWLIST_KEY");
+//        Log.d(tag + "REVIEW LIST", reviewslist.size()+"");
+
 
 
         title.setText(mInfo.getTitle());

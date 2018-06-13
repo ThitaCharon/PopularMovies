@@ -1,11 +1,13 @@
     package com.example.android.popularmovies.Model;
 
 
+    import android.arch.persistence.room.Entity;
     import android.os.Parcel;
     import android.os.Parcelable;
 
     import com.google.gson.annotations.SerializedName;
 
+    @Entity(tableName = "movies_info")
     public class Movie implements Parcelable {
 
         @SerializedName("title")
