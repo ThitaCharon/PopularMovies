@@ -1,8 +1,7 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.example.android.popularmovies.DetailActivity;
 import com.example.android.popularmovies.Model.Movie;
+import com.example.android.popularmovies.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -30,42 +31,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         this.mContext = mContext;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        public ImageView image;
-        public ProgressBar progressBar;
-
-        // MyViewHolder constructor
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.imageView);
-            progressBar = itemView.findViewById(R.id.progressbar);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View itemView) {
-            int adapterPosition = getAdapterPosition();
-            Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-//            intent.putExtra(String.valueOf(R.string.INFO_TITLE), movieList.get(adapterPosition).getTitle());
-//            intent.putExtra(String.valueOf(R.string.INFO_RATING), movieList.get(adapterPosition).getRating());
-//            intent.putExtra(String.valueOf(R.string.INFO_DATERELEASE), movieList.get(adapterPosition).getDateRelease());
-//            intent.putExtra(String.valueOf(R.string.INFO_DESCRIPTION), movieList.get(adapterPosition).getOverview());
-//            intent.putExtra(String.valueOf(R.string.INFO_POSTERLINK), movieList.get(adapterPosition).getPosterUrl());
-
-        // Using Parcelable
-            final Movie movie = movieList.get(adapterPosition);
-            intent.putExtra("mInfo", movie);
-                Log.d (MoviesAdapter.class.getSimpleName() , movie.getTitle());
-                Log.d (MoviesAdapter.class.getSimpleName() , movie.getOverview());
-
-            try {
-                MoviesAdapter.this.mContext.startActivity(intent);
-            } catch (RuntimeException e) {
-                Log.d(MoviesAdapter.class.getSimpleName(), e.getMessage());
-            }
-        }
-    }
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate movie list item o
@@ -97,5 +62,40 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         return 0;
     }
 
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        public ImageView image;
+        public ProgressBar progressBar;
+
+        // MyViewHolder constructor
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            image = (ImageView) itemView.findViewById(R.id.imageView);
+            progressBar = itemView.findViewById(R.id.progressbar);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View itemView) {
+            int adapterPosition = getAdapterPosition();
+            Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
+//            intent.putExtra(String.valueOf(R.string.INFO_TITLE), movieList.get(adapterPosition).getTitle());
+//            intent.putExtra(String.valueOf(R.string.INFO_RATING), movieList.get(adapterPosition).getRating());
+//            intent.putExtra(String.valueOf(R.string.INFO_DATERELEASE), movieList.get(adapterPosition).getDateRelease());
+//            intent.putExtra(String.valueOf(R.string.INFO_DESCRIPTION), movieList.get(adapterPosition).getOverview());
+//            intent.putExtra(String.valueOf(R.string.INFO_POSTERLINK), movieList.get(adapterPosition).getPosterUrl());
+
+        // Using Parcelable
+            final Movie movie = movieList.get(adapterPosition);
+            intent.putExtra("mInfo", movie);
+//                Log.d (MoviesAdapter.class.getSimpleName() , movie.getTitle());
+//                Log.d (MoviesAdapter.class.getSimpleName() , movie.getOverview());
+
+            try {
+                MoviesAdapter.this.mContext.startActivity(intent);
+            } catch (RuntimeException e) {
+                Log.d(MoviesAdapter.class.getSimpleName(), e.getMessage());
+            }
+        }
+    }
 }

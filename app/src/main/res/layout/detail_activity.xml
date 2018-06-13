@@ -7,16 +7,34 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/tv_detialActivity_posterimage"
-                android:layout_width="match_parent"
-                android:layout_height="520sp"
-                android:paddingBottom="18dp"/>
+                android:id="@+id/tv_detailActivity_posterimage"
+                android:layout_width="300sp"
+                android:layout_height="320sp"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp" />
+
+            <Button
+                android:id="@+id/favorite"
+                style="@android:style/Widget.Button.Toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:background="@color/Header"
+                android:paddingBottom="18dp"
+                android:text="ADD TO FAVORITE"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/background_light"
+                android:textColorLink="@android:color/holo_red_dark"
+                android:textIsSelectable="false"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,72 +44,120 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
-                        android:id="@+id/tv_detialActivity_Title_header"
+                        android:id="@+id/tv_detailActivity_Title_header"
+                        style="@style/Header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/INFO_TITLE"
-                        style="@style/Header"/>
+                        android:text="@string/INFO_TITLE" />
+
                     <TextView
-                        android:id="@+id/tv_detialActivity_Title"
-                        android:layout_toRightOf="@id/tv_detialActivity_Title_header"
+                        android:id="@+id/tv_detailActivity_Title"
+                        style="@style/Info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/INFO_TITLE"
-                        style="@style/Info"/>
+                        android:layout_toRightOf="@id/tv_detailActivity_Title_header"
+                        android:text="@string/INFO_TITLE" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
-                        android:id="@+id/tv_detialActivity_Rating_header"
+                        android:id="@+id/tv_detailActivity_Rating_header"
+                        style="@style/Header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/INFO_RATING"
-                        style="@style/Header"/>
+                        android:text="@string/INFO_RATING" />
+
                     <TextView
-                        android:id="@+id/tv_detialActivity_Rating"
-                        android:layout_toRightOf="@id/tv_detialActivity_Rating_header"
+                        android:id="@+id/tv_detailActivity_Rating"
+                        style="@style/Info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/INFO_RATING"
-                        style="@style/Info"/>
+                        android:layout_toRightOf="@id/tv_detailActivity_Rating_header"
+                        android:text="@string/INFO_RATING" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
-                        android:id="@+id/tv_detialActivity_DateRelease_header"
+                        android:id="@+id/tv_detailActivity_DateRelease_header"
+                        style="@style/Header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/INFO_DATERELEASE"
-                        style="@style/Header"/>
+                        android:text="@string/INFO_DATERELEASE" />
+
                     <TextView
-                        android:id="@+id/tv_detialActivity_DateRelease"
-                        android:layout_toRightOf="@id/tv_detialActivity_DateRelease"
+                        android:id="@+id/tv_detailActivity_DateRelease"
+                        style="@style/Info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/INFO_DATERELEASE"
-                        style="@style/Info"/>
+                        android:layout_toRightOf="@id/tv_detailActivity_DateRelease"
+                        android:text="@string/INFO_DATERELEASE" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
-                        android:id="@+id/tv_detialActivity_desc_header"
+                        android:id="@+id/tv_detailActivity_desc_header"
+                        style="@style/Header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
                         android:text="@string/INFO_DESCRIPTION"
-                        style="@style/Header"/>
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:id="@+id/tv_detialActivity_desc"
-                        android:layout_toEndOf="@id/tv_detialActivity_desc_header"
+                        android:id="@+id/tv_detailActivity_desc"
+                        style="@style/Info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/INFO_DESCRIPTION"
-                        style="@style/Info"/>
+                        android:layout_toEndOf="@id/tv_detailActivity_desc_header"
+                        android:text="@string/INFO_DESCRIPTION" />
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/trailer_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Header"
+                    android:text="@string/INFO_TRAILERS" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_trailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/review_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Header"
+                        android:text="@string/INFO_REVIEWS" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </RelativeLayout>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

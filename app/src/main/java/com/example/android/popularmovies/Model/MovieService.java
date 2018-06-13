@@ -10,10 +10,10 @@ public interface MovieService {
     @GET("/3/movie/{category}")
     Call<MovieRespond> getMovies(@Path("category") String category, @Query("api_key") String apiKey);
 
-    @GET("/3/movie/{id}/videos?")
+    @GET("/3/movie/{id}/videos")
     Call<VideoRespond> getVideos(@Path("id") String id , @Query("api_key") String apiKey);
 
-    @GET("/3/movie/{id}/reviews?")
+    @GET("/3/movie/{id}/reviews")
     Call<ReviewRespond> getReviews(@Path("id") String id, @Query("api_key") String apiKey);
 
 

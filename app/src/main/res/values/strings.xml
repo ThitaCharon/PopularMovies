@@ -9,5 +9,7 @@
     <string name="INFO_DESCRIPTION">OVERVIEW : </string>
     <string name="INFO_POSTERLINK">POSTERLINK</string>
     <string name="INFO_TRAILERS">TRAILERS :</string>
+    <string name="INFO_REVIEWS">TRAILERS :</string>
+    <string name="query_favorite">Favorite</string>
 
 </resources>

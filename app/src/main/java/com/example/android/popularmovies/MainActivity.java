@@ -1,7 +1,6 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Parcelable;
@@ -14,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.example.android.popularmovies.Adapter.MoviesAdapter;
+import com.example.android.popularmovies.Adapter.ReviewAdpater;
 import com.example.android.popularmovies.Model.Movie;
 import com.example.android.popularmovies.Model.MovieRespond;
 import com.example.android.popularmovies.Model.MovieService;
@@ -35,16 +36,21 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity.class";
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private final static String API_KEY = "Apikey";
-    private final static String MOVIELIST_KEY = "MOVIELIST_KEY";
+    private static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
+    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
+    public final static String MOVIELIST_KEY = "MOVIELIST_KEY";
+    public final static String TRAILERLIST_KEY = "TRAILERLIST_KEY";
+    public final static String REVIEWLIST_KEY = "REVIEWLIST_KEY";
     private static Retrofit retrofit = null;
     // Poppulate item in RV
     private List<Movie> movieList = new ArrayList<>();
-    private List<Video> videosList = new ArrayList<>();
+    private List<Video> trailersList = new ArrayList<>();
     private List<Review> reviewsList = new ArrayList<>();
-    private List<Integer>   mIdList = new ArrayList<Integer>();
+    private List<Integer> mIdList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
+    private ReviewAdpater reviewAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null && savedInstanceState.containsKey(MOVIELIST_KEY)){
             movieList = savedInstanceState.getParcelableArrayList(MOVIELIST_KEY);
+            trailersList = savedInstanceState.getParcelableArrayList(TRAILERLIST_KEY);
+            reviewsList = savedInstanceState.getParcelableArrayList(REVIEWLIST_KEY);
             Log.d(TAG,"Retrieve data from SaveInstanceStance");
         }
 
@@ -79,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.rating_sorted:
                 sortedMovieApi(getString(R.string.query_top_rated));
                 return true;
+            case R.id.favorite_sorted:
+                sortedMovieApi(getString(R.string.query_favorite));
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -126,11 +136,11 @@ public class MainActivity extends AppCompatActivity {
         vCall.enqueue(new Callback<VideoRespond>() {
             @Override
             public void onResponse(Call<VideoRespond> call, Response<VideoRespond> response) {
-                videosList.clear();
-                videosList.addAll(response.body().getVideoslist());
-                Log.d("Video Id" , id + " Size " + videosList.size() );
-                for (Video v : videosList) {
-                    Log.d("Videos ",  v.getName() + v.getSite() + v.getSize());
+                trailersList.clear();
+                trailersList.addAll(response.body().getVideoslist());
+                Log.d("Video Id" , id + " Size " + trailersList.size() );
+                for (Video v : trailersList) {
+                    Log.d("Videos ",  YOUTUBE_BASE_URL+v.getKey() + "&append_to_response=videos | " + v.getName() + v.getSite() + v.getSize());
                 }
             }
 
@@ -155,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
                 for (Review r : reviewsList) {
                     Log.d("Reviews  ",  r.getUrl());
                 }
+                reviewAdapter = new ReviewAdpater(reviewsList,getApplication());
+                //TODO try to pass reviewAdapter to DetailActivity and Display as RECYCLEVIEW
             }
             @Override
             public void onFailure(Call<ReviewRespond> call, Throwable t) {
@@ -168,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(MOVIELIST_KEY, (ArrayList<? extends Parcelable>) movieList);
+        outState.putParcelableArrayList(TRAILERLIST_KEY, (ArrayList<? extends Parcelable>) trailersList);
+        outState.putParcelableArrayList(REVIEWLIST_KEY, (ArrayList<? extends Parcelable>) reviewsList);
         Log.v(TAG, "Saving the bundle");
     }
 

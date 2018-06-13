@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.Model.Movie;
+import com.example.android.popularmovies.Model.Video;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -25,12 +28,9 @@ public class DetailActivity extends AppCompatActivity {
         final String tag = DetailActivity.class.getSimpleName();
 
         Intent intent = getIntent();
-
-
         final Movie mInfo = intent.getParcelableExtra("mInfo");
-        Log.d(tag +" id ", mInfo.getId() + "");
         Log.d(tag +" title ", mInfo.getTitle() + "");
-        Log.d(tag + " Overview", mInfo.getOverview() + "");
+
 
         title.setText(mInfo.getTitle());
         rating.setText(mInfo.getRating());
