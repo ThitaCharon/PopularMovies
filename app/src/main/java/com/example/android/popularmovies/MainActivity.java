@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity.class";
     private static final String BASE_URL = "https://api.themoviedb.org";
     private static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
-    private final static String API_KEY = "00bcdc08187b76f5bc2bd8ef96584f05";
+    private final static String API_KEY = "Apikey";
     public final static String MOVIELIST_KEY = "MOVIELIST_KEY";
     public final static String TRAILERLIST_KEY = "TRAILERLIST_KEY";
     public final static String REVIEWLIST_KEY = "REVIEWLIST_KEY";
