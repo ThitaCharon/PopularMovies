@@ -36,7 +36,7 @@ public class ReviewAdpater extends RecyclerView.Adapter<ReviewAdpater.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Review review = reviewList.get(position);
         holder.author.setText(review.getAuthor());
-        holder.content.setText(review.getContent());
+//        holder.content.setText(review.getContent());
         holder.review_url.setText(review.getUrl());
     }
 
@@ -51,20 +51,20 @@ public class ReviewAdpater extends RecyclerView.Adapter<ReviewAdpater.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView author;
-        public TextView content;
+//        public TextView content;
         public TextView review_url;
 
         public ViewHolder(View itemView) {
             super(itemView);
             author = (TextView) itemView.findViewById(R.id.tv_author);
-            content = (TextView) itemView.findViewById(R.id.tv_review_content);
+//            content = (TextView) itemView.findViewById(R.id.tv_review_content);
             review_url = (TextView) itemView.findViewById(R.id.tv_review_url);
         }
 
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            Toast toast = Toast.makeText(rContent ,"Show Review URL"+review_url, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(rContent ,"Show Review "+author, Toast.LENGTH_LONG);
             toast.show();
         }
     }

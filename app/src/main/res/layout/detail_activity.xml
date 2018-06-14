@@ -26,8 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="80dp"
+                android:layout_marginBottom="24dp"
                 android:background="@color/Header"
-                android:paddingBottom="18dp"
                 android:text="ADD TO FAVORITE"
                 android:textAlignment="center"
                 android:textAllCaps="true"
@@ -142,18 +142,19 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/review_header"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/Header"
                         android:text="@string/INFO_REVIEWS" />
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_review"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/review_header"
+                        android:paddingBottom="80dp">
                     </android.support.v7.widget.RecyclerView>
 
                 </RelativeLayout>

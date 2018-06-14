@@ -35,9 +35,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity.class";
-    private static final String BASE_URL = "https://api.themoviedb.org";
-    private static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
-    private final static String API_KEY = "Apikey";
+    public static final String BASE_URL = "https://api.themoviedb.org";
+    public static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
+    public final static String API_KEY = "Apikey";
     public final static String MOVIELIST_KEY = "MOVIELIST_KEY";
     public final static String TRAILERLIST_KEY = "TRAILERLIST_KEY";
     public final static String REVIEWLIST_KEY = "REVIEWLIST_KEY";
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 for(Movie m: movieList) {
                     mIdList.add(m.getId());
                     Log.d("Movie's title", m.getId()+ " | " + m.getTitle() );
-                    retrieveVideos(m.getId(), movieService);
+//                    retrieveVideos(m.getId(), movieService);
 //                    retrieveReviews(m.getId(), movieService);
                 }
 
@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }// end sortedMovieApi()
 
+/**
     private void retrieveVideos (final int id, MovieService service){
 
         Call<VideoRespond> vCall = service.getVideos(id + "", API_KEY);
@@ -151,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-//    private void retrieveReviews(final int id, MovieService movieService){
     private void retrieveReviews(MovieService movieService) {
         for (Integer id :mIdList) {
         Call<ReviewRespond> rCall = movieService.getReviews(id+ "", API_KEY);
@@ -175,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
         });
         }
     }
+**/
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

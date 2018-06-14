@@ -6,5 +6,5 @@
     <color name="Header">#a92424</color>
     <color name="font">#790c0c</color>
     <color name="colorLightGray">#b1e1dbdb</color>
-
+    <color name="link">#004fed</color>
 </resources>

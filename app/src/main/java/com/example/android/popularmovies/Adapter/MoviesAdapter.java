@@ -87,7 +87,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
         // Using Parcelable
             final Movie movie = movieList.get(adapterPosition);
-            intent.putExtra("mInfo", movie);
+            intent.putExtra("mSelected", movie);
 //                Log.d (MoviesAdapter.class.getSimpleName() , movie.getTitle());
 //                Log.d (MoviesAdapter.class.getSimpleName() , movie.getOverview());
 
