@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -28,7 +27,7 @@
                 android:layout_marginLeft="80dp"
                 android:layout_marginBottom="24dp"
                 android:background="@color/Header"
-                android:text="ADD TO FAVORITE"
+                android:text="@string/add_to_favorite"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@android:color/background_light"
@@ -91,13 +90,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/INFO_DATERELEASE" />
-
                     <TextView
                         android:id="@+id/tv_detailActivity_DateRelease"
-                        style="@style/Info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/tv_detailActivity_DateRelease"
+                        style="@style/Info"
+                        android:layout_toRightOf="@+id/tv_detailActivity_DateRelease_header"
                         android:text="@string/INFO_DATERELEASE" />
                 </RelativeLayout>
 
@@ -124,38 +122,43 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/trailer_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/Header"
-                    android:text="@string/INFO_TRAILERS" />
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_trailer"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/trailer_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Header"
+                        android:text="@string/INFO_TRAILERS" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_trailer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/trailer_header"
+                        android:paddingBottom="25dp">
 
-                </android.support.v7.widget.RecyclerView>
+                    </android.support.v7.widget.RecyclerView>
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
                     <TextView
                         android:id="@+id/review_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/Header"
                         android:text="@string/INFO_REVIEWS" />
+
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_review"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="0dp"
                         android:layout_toEndOf="@+id/review_header"
-                        android:paddingBottom="80dp">
-                    </android.support.v7.widget.RecyclerView>
+                        android:paddingBottom="80dp"></android.support.v7.widget.RecyclerView>
 
                 </RelativeLayout>
 

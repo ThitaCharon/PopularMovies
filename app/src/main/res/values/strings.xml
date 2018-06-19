@@ -3,6 +3,8 @@
     <string name="query_top_rated">top_rated</string>
     <string name="query_popular">popular</string>
 
+    <string name="YOUTUBE_BASE">"https://www.youtube.com/watch?v="</string>
+
     <string name="INFO_TITLE">TITLE  : </string>
     <string name="INFO_RATING">RATING : </string>
     <string name="INFO_DATERELEASE">DATE RELEASE : </string>
@@ -11,5 +13,7 @@
     <string name="INFO_TRAILERS">TRAILERS :</string>
     <string name="INFO_REVIEWS">REVIEWS :</string>
     <string name="query_favorite">Favorite</string>
+    <string name="add_to_favorite">mark as\nfavorite</string>
+    <string name="my_favorite">my favorite</string>
 
 </resources>

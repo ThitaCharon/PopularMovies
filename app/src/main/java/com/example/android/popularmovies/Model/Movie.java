@@ -2,14 +2,20 @@
 
 
     import android.arch.persistence.room.Entity;
+    import android.arch.persistence.room.PrimaryKey;
     import android.os.Parcel;
     import android.os.Parcelable;
+    import android.support.annotation.NonNull;
 
     import com.google.gson.annotations.SerializedName;
 
-    @Entity(tableName = "movies_info")
+    @Entity(tableName = "movieTask")
     public class Movie implements Parcelable {
 
+        @NonNull
+        @PrimaryKey
+        @SerializedName("id")
+        private int id;
         @SerializedName("title")
         private String title;
         @SerializedName("poster_path")
@@ -22,8 +28,6 @@
         private String dateRelease;
         @SerializedName("popularity")
         private Double popularity;
-        @SerializedName("id")
-        private int id;
 
         // parameter constructor
         public Movie (String title, String poster, String overview, String popularVote, String rating,
@@ -61,6 +65,7 @@
         };
 
         // access modifier
+        @NonNull
         public int getId()              {   return id; }
         public String getTitle()        {   return title;       }
         public String getPosterUrl()    {   return poster;      }

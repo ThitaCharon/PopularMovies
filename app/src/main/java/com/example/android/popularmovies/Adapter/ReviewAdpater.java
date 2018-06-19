@@ -1,11 +1,15 @@
 package com.example.android.popularmovies.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +21,12 @@ import java.util.List;
 public class ReviewAdpater extends RecyclerView.Adapter<ReviewAdpater.ViewHolder> {
 
     public List<Review> reviewList;
-    private Context rContent;
+    private Context rContext;
 
-    public ReviewAdpater(List<Review> reviewList, Context rContent){
+    public ReviewAdpater(List<Review> reviewList, Context rContext){
         this.reviewList = reviewList;
-        this.rContent = rContent;
+        this.rContext = rContext;
     }
-
 
     @NonNull
     @Override
@@ -34,39 +37,46 @@ public class ReviewAdpater extends RecyclerView.Adapter<ReviewAdpater.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Review review = reviewList.get(position);
-        holder.author.setText(review.getAuthor());
-//        holder.content.setText(review.getContent());
-        holder.review_url.setText(review.getUrl());
+        final Review reviewSelected = reviewList.get(position);
+        holder.author.setText(reviewSelected.getAuthor());
+        holder.setClickListener(new ItemClickListener() {    // Bind the listener
+            @Override
+            public void onClick(View view, int position) {
+                Toast.makeText(rContext, "#" + position + " " + reviewSelected.getAuthor(),Toast.LENGTH_SHORT).show();
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                browserIntent.setData(Uri.parse(reviewSelected.getUrl()));
+                rContext.startActivity(browserIntent);
+                Log.d("Click on Review ",rContext.toString());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        if (reviewList != null){
-            return reviewList.size();
-        }
+        if (reviewList != null){ return reviewList.size(); }
         return 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView author;
-//        public TextView content;
-        public TextView review_url;
+        private TextView author;
+        private ItemClickListener clickListener;
 
         public ViewHolder(View itemView) {
             super(itemView);
             author = (TextView) itemView.findViewById(R.id.tv_author);
-//            content = (TextView) itemView.findViewById(R.id.tv_review_content);
-            review_url = (TextView) itemView.findViewById(R.id.tv_review_url);
+            itemView.setOnClickListener(this);
+        }
+
+        private void setClickListener(ItemClickListener itemClickListener){
+            this.clickListener = itemClickListener;
         }
 
         @Override
-        public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            Toast toast = Toast.makeText(rContent ,"Show Review "+author, Toast.LENGTH_LONG);
-            toast.show();
+        public void onClick(View view) {
+            clickListener.onClick( view, getAdapterPosition());
         }
+
     }
 
 }

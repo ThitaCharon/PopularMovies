@@ -48,6 +48,10 @@ public class Video implements Parcelable {
     public String getSite() { return site; }
     public int getSize() { return size; }
     public String getType() { return type; }
+    public String getUrl () {
+        String url = "https://www.youtube.com/watch?v="+getKey();
+        return url;
+    }
 
     //setter
     public void setId(String id) { this.id = id; }
