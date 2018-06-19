@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.Adapter.ReviewAdpater;
 import com.example.android.popularmovies.Adapter.VideoAdpater;
-import com.example.android.popularmovies.Database.AppDatabase;
+//import com.example.android.popularmovies.Database.AppDatabase;
 import com.example.android.popularmovies.Model.Movie;
 import com.example.android.popularmovies.Model.MovieService;
 import com.example.android.popularmovies.Model.Review;
@@ -47,7 +47,7 @@ public class DetailActivity extends AppCompatActivity {
     private final String TAG = DetailActivity.class.getSimpleName();
     private Movie favMovie , mSelected;
     // variable for Database
-    private AppDatabase mDb;
+//    private AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class DetailActivity extends AppCompatActivity {
         initViews();
 
         //Testing database
-        mDb = AppDatabase.getsInstance(getApplicationContext());
+//        mDb = AppDatabase.getsInstance(getApplicationContext());
 
         // setup RecycleView for Trailer
         initRecycleView();
@@ -84,8 +84,8 @@ public class DetailActivity extends AppCompatActivity {
 
     public void onSaveButtonClicked(){
         Log.d("Insert Movie", " to a Favorite DB");
-        mDb.movieDAO().insertMovie(favMovie);
-        finish();
+//        mDb.movieDAO().insertMovie(favMovie);
+//        finish();
     }
 
 

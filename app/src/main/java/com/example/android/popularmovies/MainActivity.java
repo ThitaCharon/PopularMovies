@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
     public final static String API_KEY = "Apikey";
     public final static String MOVIELIST_KEY = "MOVIELIST_KEY";
     private static Retrofit retrofit = null;
-    // Poppulate item in RV
+    // Populate item in RV
     private List<Movie> movieList = new ArrayList<>();
-    private List<Integer> mIdList = new ArrayList<>();
+    private List<String> mIdList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
 

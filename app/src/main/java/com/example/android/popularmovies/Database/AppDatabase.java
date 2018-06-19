@@ -29,7 +29,6 @@ public abstract class AppDatabase extends RoomDatabase {
         Log.d(TAG, "Getting the sInstance");
         return sInstance;
     }
-
     public abstract MovieDAO movieDAO();
 
 }
