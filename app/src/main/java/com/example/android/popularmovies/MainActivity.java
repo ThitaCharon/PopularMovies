@@ -1,9 +1,12 @@
 package com.example.android.popularmovies;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,16 +15,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.android.popularmovies.Adapter.MoviesAdapter;
-import com.example.android.popularmovies.Adapter.ReviewAdpater;
+import com.example.android.popularmovies.Database.AppDatabase;
 import com.example.android.popularmovies.Model.Movie;
 import com.example.android.popularmovies.Model.MovieRespond;
 import com.example.android.popularmovies.Model.MovieService;
-import com.example.android.popularmovies.Model.Review;
-import com.example.android.popularmovies.Model.ReviewRespond;
-import com.example.android.popularmovies.Model.Video;
-import com.example.android.popularmovies.Model.VideoRespond;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +39,15 @@ public class MainActivity extends AppCompatActivity {
     public static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
     public final static String API_KEY = "Apikey";
     public final static String MOVIELIST_KEY = "MOVIELIST_KEY";
+//    private final static String FAVORITE_EXTRA = "favorite_extra";
     private static Retrofit retrofit = null;
     // Populate item in RV
     private List<Movie> movieList = new ArrayList<>();
-    private List<String> mIdList = new ArrayList<>();
+//    private List<String> mIdList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
+    private MoviesAdapter favMoviesAdapter;
+    private AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.rv_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         mRecyclerView.setHasFixedSize(true);
+
+        mDb = AppDatabase.getsInstance(getApplicationContext());
+        setupViewModel();
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -88,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sortedMovieApi(String query){
+        if (query.equals(getString(R.string.query_favorite))) {
+            showFavoriteView();
+            return;
+        }
         // check if retrofit is null then create a new one
         if (retrofit == null) {
             retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
@@ -99,15 +109,13 @@ public class MainActivity extends AppCompatActivity {
         mCall.enqueue(new Callback<MovieRespond>() {
             @Override
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
-                mIdList.clear();
+//                mIdList.clear();
                 movieList.clear();
                 movieList.addAll(response.body().getMovieslist());
-
                 for(Movie m: movieList) {
-                    mIdList.add(m.getId());
+//                    mIdList.add(m.getId());
                     Log.d("Movie's title", m.getId()+ " | " + m.getTitle() );
                 }
-
                 moviesAdapter = new MoviesAdapter(movieList,getApplicationContext());
                 mRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
@@ -120,12 +128,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }// end sortedMovieApi()
 
+    private void showFavoriteView() {
+        Log.d("Suppose to Show ", " FAVORITE UI");
+        setupViewModel();
+        Toast.makeText(this, "Show favor list", Toast.LENGTH_LONG).show();
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(MOVIELIST_KEY, (ArrayList<? extends Parcelable>) movieList);
+//        outState.putParcelableArrayList(FAVORITE_EXTRA, (ArrayList<? extends Parcelable>) favMovieList);
         Log.v(TAG, "Saving the bundle");
+    }
+
+
+    private void setupViewModel() {
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getMoives().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                Log.d(TAG,"Receiving database update from LiveData in ViewModel");
+                favMoviesAdapter = new MoviesAdapter(movies,getApplicationContext());
+                mRecyclerView.setAdapter(favMoviesAdapter);
+            }
+        });
+
     }
 
     /*

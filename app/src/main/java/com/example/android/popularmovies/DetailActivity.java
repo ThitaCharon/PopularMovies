@@ -1,6 +1,8 @@
 package com.example.android.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.popularmovies.Adapter.ReviewAdpater;
 import com.example.android.popularmovies.Adapter.VideoAdpater;
-//import com.example.android.popularmovies.Database.AppDatabase;
+import com.example.android.popularmovies.Database.AppDatabase;
 import com.example.android.popularmovies.Model.Movie;
 import com.example.android.popularmovies.Model.MovieService;
 import com.example.android.popularmovies.Model.Review;
@@ -45,9 +48,13 @@ public class DetailActivity extends AppCompatActivity {
     private RecyclerView rRecycleView;
     private Button favBtn;
     private final String TAG = DetailActivity.class.getSimpleName();
-    private Movie favMovie , mSelected;
+    private Movie mSelected;
     // variable for Database
-//    private AppDatabase mDb;
+    private AppDatabase mDb;
+    public static final String MY_PREF = "MyPref";
+    public static final String BTN_KEY = "message";
+//    public static final String ADD_TO_FAVORITE = String.valueOf((R.string.add_to_favorite));
+//    public static final String REMOVE_FAVORITE = String.valueOf(R.string.remove_from_favorite);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,39 +64,63 @@ public class DetailActivity extends AppCompatActivity {
 
         initViews();
 
-        //Testing database
-//        mDb = AppDatabase.getsInstance(getApplicationContext());
+        // database
+        mDb = AppDatabase.getsInstance(getApplicationContext());
 
         // setup RecycleView for Trailer
         initRecycleView();
 
         // extract data
         Intent intent = getIntent();
-        mSelected = intent.getParcelableExtra("mSelected");
-
+        if (intent != null && intent.hasExtra("mSelected") ) {
+            mSelected = intent.getParcelableExtra("mSelected");
+        }
         //Retrofit callback api
         requestTrailer(mSelected.getId());
 
         // set data to display
         displayData();
 
-        favBtn.setOnClickListener(new View.OnClickListener() {
+        favBtn.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                favBtn.setText(R.string.my_favorite);
-                onSaveButtonClicked();
+            public void onClick(View view) {
+                //for debugging
+//                removeFromFavorite();
+                if (favBtn.getText().toString().equals(getString(R.string.add_to_favorite))){
+                    favBtn.setText(R.string.remove_from_favorite);
+                    onSaveFavoriteClicked();
+                }else if (favBtn.getText().toString().equals(getString(R.string.remove_from_favorite))){
+                    favBtn.setText(R.string.add_to_favorite);
+                    removeFromFavorite();
+                }
             }
         });
     }
 
-    public void onSaveButtonClicked(){
+    private void removeFromFavorite() {
+        Log.d("Remove Movie", " to a Favorite DB");
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.movieDAO().deleteMovie(mSelected);
+            }
+        });
+        Toast.makeText(this,"Delete" + mSelected.getTitle(),Toast.LENGTH_SHORT).show();
+    }
+
+    public void onSaveFavoriteClicked(){
         Log.d("Insert Movie", " to a Favorite DB");
-//        mDb.movieDAO().insertMovie(favMovie);
-//        finish();
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.movieDAO().insertMovie(mSelected);
+            }
+        });
+        Toast.makeText(this,"Insert" + mSelected.getTitle(),Toast.LENGTH_SHORT).show();
     }
 
 
-    private void requestTrailer(final int id){
+    private void requestTrailer(final String id){
         Retrofit retrofit = null;
         if (retrofit == null) {
             retrofit = new Retrofit.Builder().baseUrl(MainActivity.BASE_URL)
@@ -102,7 +133,6 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(Call<VideoRespond> call, Response<VideoRespond> response) {
                 trailersList.clear();
                 trailersList.addAll(response.body().getVideoslist());
-                Log.d("Video Id" , id + " Size " + trailersList.size() );
                 for (Video v : trailersList) {
                     Log.d("Videos ",  MainActivity.YOUTUBE_BASE_URL+v.getKey() + "&append_to_response=videos | " + v.getName() + v.getSite() + v.getSize());
                 }
@@ -118,7 +148,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-    private void requestReviews(final int id, MovieService movieService ) {
+    private void requestReviews(final String id, MovieService movieService ) {
         Call<ReviewRespond> rCall = movieService.getReviews(id+ "", MainActivity.API_KEY);
         rCall.enqueue(new Callback<ReviewRespond>() {
             @Override
@@ -153,7 +183,7 @@ public class DetailActivity extends AppCompatActivity {
         rating.setText(mSelected.getRating());
         dateRelease.setText(mSelected.getDateRelease());
         desc.setText(mSelected.getOverview());
-        Picasso.get().load("http://image.tmdb.org/t/p/original/" + mSelected.getPosterUrl()).into(poster);
+        Picasso.get().load("http://image.tmdb.org/t/p/original/" + mSelected.getPoster_path()).into(poster);
 
     }
     private void initRecycleView() {
@@ -165,5 +195,20 @@ public class DetailActivity extends AppCompatActivity {
         rRecycleView.setLayoutManager(new LinearLayoutManager(this));
         rRecycleView.setHasFixedSize(true);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
 
 }

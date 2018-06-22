@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface MovieDAO {
 
-    @Query("SELECT * FROM movieTask")
+    @Query("SELECT * FROM movie")
     LiveData<List<Movie>> loadAllMovies();
 
     @Insert
@@ -26,7 +26,5 @@ public interface MovieDAO {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateMovie(Movie movie);
-
-
 
 }

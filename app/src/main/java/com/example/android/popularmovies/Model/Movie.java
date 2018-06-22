@@ -8,7 +8,7 @@
 
     import com.google.gson.annotations.SerializedName;
 
-    @Entity(tableName = "movieTask")
+    @Entity(tableName = "movie")
     public class Movie implements Parcelable {
 
         @NonNull
@@ -36,6 +36,7 @@
             this.dateRelease = dateRelease;
         }
 
+
         //Using Parcel constructor
         protected Movie(Parcel source) {
             this.id = source.readString();
@@ -62,7 +63,7 @@
         @NonNull
         public String getId()           {   return id; }
         public String getTitle()        {   return title;       }
-        public String getPosterUrl()    {   return poster_path; }
+        public String getPoster_path()  { return poster_path;   }
         public String getRating()       {   return rating;      }
         public String getOverview()     {   return overview;    }
         public String getDateRelease()  {   return dateRelease; }
@@ -70,7 +71,7 @@
         //set modifier
         public void setId(@NonNull String id)           { this.id = id; }
         public void setTitle(String title)              { this.title = title; }
-        public void setPosterUrl(String poster_path)    { this.poster_path = poster_path; }
+        public void setPoster_path(String poster_path) { this.poster_path = poster_path; }
         public void setRating(String rating)            { this.rating = rating; }
         public void setOverview(String overview)        { this.overview = overview; }
         public void setDateRelease(String dateRelease)  { this.dateRelease = dateRelease; }

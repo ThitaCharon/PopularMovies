@@ -40,7 +40,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        Picasso.get().load(IMAGE_URL_PATH + movieList.get(position).getPosterUrl())
+        Picasso.get().load(IMAGE_URL_PATH + movieList.get(position).getPoster_path())
                 .into(holder.image, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -60,6 +60,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             return movieList.size();
         }
         return 0;
+    }
+
+    public List<Movie> getMovieList(){
+        return movieList;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

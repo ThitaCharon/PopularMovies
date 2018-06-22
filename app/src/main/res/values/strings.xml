@@ -14,6 +14,6 @@
     <string name="INFO_REVIEWS">REVIEWS :</string>
     <string name="query_favorite">Favorite</string>
     <string name="add_to_favorite">mark as\nfavorite</string>
-    <string name="my_favorite">my favorite</string>
+    <string name="remove_from_favorite">remove from\nfavorite</string>
 
 </resources>
