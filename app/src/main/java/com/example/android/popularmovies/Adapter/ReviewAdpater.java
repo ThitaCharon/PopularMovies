@@ -42,7 +42,6 @@ public class ReviewAdpater extends RecyclerView.Adapter<ReviewAdpater.ViewHolder
         holder.setClickListener(new ItemClickListener() {    // Bind the listener
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(rContext, "#" + position + " " + reviewSelected.getAuthor(),Toast.LENGTH_SHORT).show();
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW);
                 browserIntent.setData(Uri.parse(reviewSelected.getUrl()));
                 rContext.startActivity(browserIntent);

@@ -39,7 +39,6 @@ public class VideoAdpater extends RecyclerView.Adapter<VideoAdpater.ViewHolder> 
         holder.setClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(vContext,"#"+ position + " " + trailer.getName(),Toast.LENGTH_LONG).show();
                 Intent watchTrailer = new Intent(Intent.ACTION_VIEW, Uri.parse(trailer.getUrl()));
                 vContext.startActivity(watchTrailer);
             }

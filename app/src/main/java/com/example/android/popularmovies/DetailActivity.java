@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.popularmovies.Adapter.ReviewAdpater;
 import com.example.android.popularmovies.Adapter.VideoAdpater;
@@ -93,29 +92,25 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void removeFromFavorite(SharedPreferences.Editor editor) {
-        Log.d("Remove Movie", " to a Favorite DB");
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 mDb.movieDAO().deleteMovie(mSelected);
             }
         });
-        Toast.makeText(this,"Delete " + mSelected.getTitle(),Toast.LENGTH_SHORT).show();
         favBtn.setText(R.string.add_to_favorite);
-        loveIcon.setVisibility(View.INVISIBLE);
+        loveIcon.setVisibility(View.GONE);
         editor.remove(mSelected.getTitle());
         editor.commit();
     }
 
     public void addToFavorite(SharedPreferences.Editor editor){
-        Log.d("Insert Movie", " to a Favorite DB");
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 mDb.movieDAO().insertMovie(mSelected);
             }
         });
-        Toast.makeText(this,"Insert " + mSelected.getTitle(),Toast.LENGTH_SHORT).show();
         favBtn.setText(R.string.remove_from_favorite);
         loveIcon.setVisibility(View.VISIBLE);
         editor.putString(mSelected.getTitle(), "true");
@@ -178,7 +173,7 @@ public class DetailActivity extends AppCompatActivity {
         rating = findViewById(R.id.tv_detailActivity_Rating);
         dateRelease = findViewById(R.id.tv_detailActivity_DateRelease);
         desc =  findViewById(R.id.tv_detailActivity_desc);
-        poster = findViewById(R.id.tv_detailActivity_posterimage);
+        poster = findViewById(R.id.tv_detailActivity_poster_image);
         favBtn = findViewById(R.id.btn_favorite);
         loveIcon = findViewById(R.id.love_icon);
     }
@@ -192,7 +187,7 @@ public class DetailActivity extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
         if (!sharedPreferences.contains(mSelected.getTitle())){
             favBtn.setText(R.string.add_to_favorite);
-            loveIcon.setVisibility(View.INVISIBLE);
+            loveIcon.setVisibility(View.GONE);
         }else{
             favBtn.setText(R.string.remove_from_favorite);
             loveIcon.setVisibility(View.VISIBLE);

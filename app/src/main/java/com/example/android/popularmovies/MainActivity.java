@@ -39,11 +39,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
     public final static String API_KEY = "Apikey";
     public final static String MOVIELIST_KEY = "MOVIELIST_KEY";
-//    private final static String FAVORITE_EXTRA = "favorite_extra";
     private static Retrofit retrofit = null;
+
     // Populate item in RV
     private List<Movie> movieList = new ArrayList<>();
-//    private List<String> mIdList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private MoviesAdapter moviesAdapter;
     private MoviesAdapter favMoviesAdapter;
