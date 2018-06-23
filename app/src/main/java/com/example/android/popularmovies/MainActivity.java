@@ -139,10 +139,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(MOVIELIST_KEY, (ArrayList<? extends Parcelable>) movieList);
-//        outState.putParcelableArrayList(FAVORITE_EXTRA, (ArrayList<? extends Parcelable>) favMovieList);
         Log.v(TAG, "Saving the bundle");
     }
-
 
     private void setupViewModel() {
         MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
@@ -154,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
                 mRecyclerView.setAdapter(favMoviesAdapter);
             }
         });
-
     }
 
     /*

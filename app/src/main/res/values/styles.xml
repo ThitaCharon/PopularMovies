@@ -24,12 +24,14 @@
         <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_marginRight">4dp</item>
     </style>
+
     <style name="Info">
         <item name="android:layout_marginRight">8dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/font</item>
         <item name="android:textSize">18sp</item>
     </style>
+
     <style name="LinkUrl">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/link</item>

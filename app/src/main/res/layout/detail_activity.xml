@@ -9,31 +9,45 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/tv_detailActivity_posterimage"
-                android:layout_width="300sp"
-                android:layout_height="320sp"
+                android:layout_width="500sp"
+                android:layout_height="520sp"
+                android:layout_gravity="center"
                 android:paddingTop="18dp"
                 android:paddingBottom="18dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/love_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="18dp"
+                android:src="@drawable/icons8_love_64"/>
 
             <Button
                 android:id="@+id/btn_favorite"
                 style="@android:style/Widget.Button.Toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
+                android:layout_toRightOf="@+id/love_icon"
+                android:layout_width="149dp"
+                android:layout_height="63dp"
                 android:layout_marginBottom="24dp"
                 android:background="@color/Header"
                 android:text="@string/add_to_favorite"
-                android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@android:color/background_light"
                 android:textColorLink="@android:color/holo_red_dark"
                 android:textIsSelectable="false"
                 android:textSize="14sp" />
+
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,11 +104,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/INFO_DATERELEASE" />
+
                     <TextView
                         android:id="@+id/tv_detailActivity_DateRelease"
+                        style="@style/Info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Info"
                         android:layout_toRightOf="@+id/tv_detailActivity_DateRelease_header"
                         android:text="@string/INFO_DATERELEASE" />
                 </RelativeLayout>
@@ -123,12 +138,14 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/trailer_header"
+                        style="@style/Header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Header"
                         android:text="@string/INFO_TRAILERS" />
+
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_trailer"
                         android:layout_width="wrap_content"
@@ -143,11 +160,12 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/review_header"
+                        style="@style/Header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Header"
                         android:text="@string/INFO_REVIEWS" />
 
                     <android.support.v7.widget.RecyclerView

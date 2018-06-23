@@ -39,7 +39,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView rating ;
     TextView dateRelease ;
     TextView desc ;
-    ImageView poster;
+    ImageView poster, loveIcon;
     private List<Video> trailersList = new ArrayList<>();
     private VideoAdpater videoAdpater;
     private RecyclerView vRecycleView;
@@ -51,10 +51,8 @@ public class DetailActivity extends AppCompatActivity {
     private Movie mSelected;
     // variable for Database
     private AppDatabase mDb;
-    public static final String MY_PREF = "MyPref";
-    public static final String BTN_KEY = "message";
-//    public static final String ADD_TO_FAVORITE = String.valueOf((R.string.add_to_favorite));
-//    public static final String REMOVE_FAVORITE = String.valueOf(R.string.remove_from_favorite);
+    SharedPreferences sharedPreferences ;
+    public static final String MyPREFERENCES = "MyPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,20 +82,17 @@ public class DetailActivity extends AppCompatActivity {
         favBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //for debugging
-//                removeFromFavorite();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (favBtn.getText().toString().equals(getString(R.string.add_to_favorite))){
-                    favBtn.setText(R.string.remove_from_favorite);
-                    onSaveFavoriteClicked();
+                    addToFavorite(editor);
                 }else if (favBtn.getText().toString().equals(getString(R.string.remove_from_favorite))){
-                    favBtn.setText(R.string.add_to_favorite);
-                    removeFromFavorite();
+                    removeFromFavorite(editor);
                 }
             }
         });
     }
 
-    private void removeFromFavorite() {
+    private void removeFromFavorite(SharedPreferences.Editor editor) {
         Log.d("Remove Movie", " to a Favorite DB");
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -105,10 +100,14 @@ public class DetailActivity extends AppCompatActivity {
                 mDb.movieDAO().deleteMovie(mSelected);
             }
         });
-        Toast.makeText(this,"Delete" + mSelected.getTitle(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Delete " + mSelected.getTitle(),Toast.LENGTH_SHORT).show();
+        favBtn.setText(R.string.add_to_favorite);
+        loveIcon.setVisibility(View.INVISIBLE);
+        editor.remove(mSelected.getTitle());
+        editor.commit();
     }
 
-    public void onSaveFavoriteClicked(){
+    public void addToFavorite(SharedPreferences.Editor editor){
         Log.d("Insert Movie", " to a Favorite DB");
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -116,9 +115,12 @@ public class DetailActivity extends AppCompatActivity {
                 mDb.movieDAO().insertMovie(mSelected);
             }
         });
-        Toast.makeText(this,"Insert" + mSelected.getTitle(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Insert " + mSelected.getTitle(),Toast.LENGTH_SHORT).show();
+        favBtn.setText(R.string.remove_from_favorite);
+        loveIcon.setVisibility(View.VISIBLE);
+        editor.putString(mSelected.getTitle(), "true");
+        editor.commit();
     }
-
 
     private void requestTrailer(final String id){
         Retrofit retrofit = null;
@@ -148,6 +150,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
     private void requestReviews(final String id, MovieService movieService ) {
         Call<ReviewRespond> rCall = movieService.getReviews(id+ "", MainActivity.API_KEY);
         rCall.enqueue(new Callback<ReviewRespond>() {
@@ -177,15 +180,25 @@ public class DetailActivity extends AppCompatActivity {
         desc =  findViewById(R.id.tv_detailActivity_desc);
         poster = findViewById(R.id.tv_detailActivity_posterimage);
         favBtn = findViewById(R.id.btn_favorite);
+        loveIcon = findViewById(R.id.love_icon);
     }
+
     private void displayData() {
         title.setText(mSelected.getTitle());
         rating.setText(mSelected.getRating());
         dateRelease.setText(mSelected.getDateRelease());
         desc.setText(mSelected.getOverview());
         Picasso.get().load("http://image.tmdb.org/t/p/original/" + mSelected.getPoster_path()).into(poster);
-
+        sharedPreferences = getApplicationContext().getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
+        if (!sharedPreferences.contains(mSelected.getTitle())){
+            favBtn.setText(R.string.add_to_favorite);
+            loveIcon.setVisibility(View.INVISIBLE);
+        }else{
+            favBtn.setText(R.string.remove_from_favorite);
+            loveIcon.setVisibility(View.VISIBLE);
+        }
     }
+
     private void initRecycleView() {
         vRecycleView = findViewById(R.id.rv_trailer);
         vRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -196,19 +209,9 @@ public class DetailActivity extends AppCompatActivity {
         rRecycleView.setHasFixedSize(true);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
-
-
 }
