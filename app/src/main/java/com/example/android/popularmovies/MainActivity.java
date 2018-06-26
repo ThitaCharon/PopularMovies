@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity.class";
     public static final String BASE_URL = "https://api.themoviedb.org";
     public static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
-    public final static String API_KEY = "Apikey";
+    public static final String API_KEY = BuildConfig.MOVIE_API_KEY;
     public final static String MOVIELIST_KEY = "MOVIELIST_KEY";
+    private String searchQuery = "popular";
+    public final static String SEARCH_KEY = "SEARCH_KEY";
     private static Retrofit retrofit = null;
 
     // Populate item in RV
@@ -55,11 +57,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null && savedInstanceState.containsKey(MOVIELIST_KEY)){
             movieList = savedInstanceState.getParcelableArrayList(MOVIELIST_KEY);
+            searchQuery = savedInstanceState.getString(SEARCH_KEY);
             Log.d(TAG,"Retrieve data from SaveInstanceStance");
         }
 
         // open connection to api default sorting on popular
-        if (isOnline()) { sortedMovieApi(getString(R.string.query_popular)); }
+        if (isOnline()) { sortedMovieApi(searchQuery); }
 
         // populate movie data on RV
         mRecyclerView = findViewById(R.id.rv_view);
@@ -80,12 +83,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.popularity_sorted:
-                sortedMovieApi(getString(R.string.query_popular));
+                searchQuery = getString(R.string.query_popular);
+                sortedMovieApi(searchQuery);
                 return true;
             case R.id.rating_sorted:
+                searchQuery = getString(R.string.query_top_rated);
+                sortedMovieApi(searchQuery);
                 sortedMovieApi(getString(R.string.query_top_rated));
                 return true;
             case R.id.favorite_sorted:
+                searchQuery = getString(R.string.query_favorite);
+                sortedMovieApi(searchQuery);
                 sortedMovieApi(getString(R.string.query_favorite));
             default:
                 return super.onOptionsItemSelected(item);
@@ -108,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
         mCall.enqueue(new Callback<MovieRespond>() {
             @Override
             public void onResponse(Call<MovieRespond> call, Response<MovieRespond> response) {
-//                mIdList.clear();
                 movieList.clear();
                 movieList.addAll(response.body().getMovieslist());
                 for(Movie m: movieList) {
@@ -128,9 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }// end sortedMovieApi()
 
     private void showFavoriteView() {
-        Log.d("Suppose to Show ", " FAVORITE UI");
         setupViewModel();
-        Toast.makeText(this, "Show favor list", Toast.LENGTH_LONG).show();
     }
 
 
@@ -138,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(MOVIELIST_KEY, (ArrayList<? extends Parcelable>) movieList);
+        outState.putString(SEARCH_KEY,searchQuery);
         Log.v(TAG, "Saving the bundle");
     }
 

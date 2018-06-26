@@ -24,6 +24,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public List<Movie> movieList;
     private Context mContext;
     public static final String IMAGE_URL_PATH = "http://image.tmdb.org/t/p/w185/";
+    public static final String MSELECT = "mSelect";
 
     //MoviesAdapter constructor
     public MoviesAdapter (List<Movie> movieslist, Context mContext){
@@ -49,7 +50,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
                     @Override
                     public void onError(Exception e) {
-
+                        Log.e(MoviesAdapter.class.getSimpleName(), e.getMessage());
                     }
                 });
     }
@@ -83,17 +84,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         public void onClick(View itemView) {
             int adapterPosition = getAdapterPosition();
             Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-//            intent.putExtra(String.valueOf(R.string.INFO_TITLE), movieList.get(adapterPosition).getTitle());
-//            intent.putExtra(String.valueOf(R.string.INFO_RATING), movieList.get(adapterPosition).getRating());
-//            intent.putExtra(String.valueOf(R.string.INFO_DATERELEASE), movieList.get(adapterPosition).getDateRelease());
-//            intent.putExtra(String.valueOf(R.string.INFO_DESCRIPTION), movieList.get(adapterPosition).getOverview());
-//            intent.putExtra(String.valueOf(R.string.INFO_POSTERLINK), movieList.get(adapterPosition).getPosterUrl());
 
         // Using Parcelable
             final Movie movie = movieList.get(adapterPosition);
-            intent.putExtra("mSelected", movie);
-//                Log.d (MoviesAdapter.class.getSimpleName() , movie.getTitle());
-//                Log.d (MoviesAdapter.class.getSimpleName() , movie.getOverview());
+            intent.putExtra(MSELECT, movie);
 
             try {
                 MoviesAdapter.this.mContext.startActivity(intent);

@@ -37,4 +37,11 @@
         <item name="android:textColor">@color/link</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="Content">Content
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/link</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

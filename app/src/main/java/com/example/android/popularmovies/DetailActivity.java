@@ -9,10 +9,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.Adapter.MoviesAdapter;
 import com.example.android.popularmovies.Adapter.ReviewAdpater;
 import com.example.android.popularmovies.Adapter.VideoAdpater;
 import com.example.android.popularmovies.Database.AppDatabase;
@@ -34,10 +36,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DetailActivity extends AppCompatActivity {
-    TextView title;
-    TextView rating ;
-    TextView dateRelease ;
-    TextView desc ;
+    TextView title, rating, dateRelease, desc , contentReview;
     ImageView poster, loveIcon;
     private List<Video> trailersList = new ArrayList<>();
     private VideoAdpater videoAdpater;
@@ -51,13 +50,14 @@ public class DetailActivity extends AppCompatActivity {
     // variable for Database
     private AppDatabase mDb;
     SharedPreferences sharedPreferences ;
-    public static final String MyPREFERENCES = "MyPrefs";
+    private static final String MyPREFERENCES = "MyPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
+
 
         initViews();
 
@@ -69,8 +69,9 @@ public class DetailActivity extends AppCompatActivity {
 
         // extract data
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("mSelected") ) {
-            mSelected = intent.getParcelableExtra("mSelected");
+        if (intent != null && intent.hasExtra(MoviesAdapter.MSELECT) ) {
+            mSelected = intent.getParcelableExtra(MoviesAdapter.MSELECT);
+            setTitle(mSelected.getTitle());
         }
         //Retrofit callback api
         requestTrailer(mSelected.getId());
@@ -203,7 +204,6 @@ public class DetailActivity extends AppCompatActivity {
         rRecycleView.setLayoutManager(new LinearLayoutManager(this));
         rRecycleView.setHasFixedSize(true);
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
