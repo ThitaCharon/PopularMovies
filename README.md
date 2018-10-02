@@ -1,4 +1,5 @@
 # PopularMovies
+![screen shot 2018-10-02 at 2 08 01 pm](https://user-images.githubusercontent.com/25854219/46367869-c2a1d500-c64c-11e8-9f36-74b374da6048.png)
 
 ![screen shot 2018-10-02 at 2 03 22 pm](https://user-images.githubusercontent.com/25854219/46367622-13fd9480-c64c-11e8-8681-3e25ab3c5943.png)
 
